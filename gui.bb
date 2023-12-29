@@ -1,0 +1,315 @@
+
+
+Type TGadget
+	Field x,y,width,height
+	Field rx,ry
+	Field caption$
+	Field typ ; 0 = fenster, 1 = button
+	Field parent.TGadget
+	Field handl ; handle des objekts
+End Type
+
+Type TButton
+	; erweitert TGadget
+	Field r,g,b
+	Field hotkey
+	Field OnClick$ ; gaaanz billiges event :)
+End Type
+
+Type TSlider
+	; erweitert TGadget
+	Field pos
+	Field changing
+	Field OnChange$
+End Type
+
+Type TFileInput
+	; erweitert TGadget
+	Field txt$
+	Field OnClick$
+	Field OnEscape$
+End Type
+
+Global Gui_ad$[8]
+gui_ad[0] = "Hello dear User. There are some cool things I'd like to tell you about."
+gui_ad[1] = "As you like the same kind of games as me, you might also like some other things I like..."
+gui_ad[2] = "First: Other funny stuff by me can be found on www.mrkeks.net!"
+gui_ad[3] = "This toy/game has been programmed using BlitzBaisc: www.blitzbasic.com"
+gui_ad[4] = "Great fun-punk-ska-music: www.reelbigfish.com 'She has a girlfriend now'"
+gui_ad[5] = "BlackSpotSneaker.org - kick mega corporate ass with adbuster's unionmade vegi sneakers!"
+gui_ad[6] = "Hug the World! www.FreeHugsCampaign.org"
+gui_ad[7] = "Firefox - Rediscover the web! www.mozilla.com"
+gui_ad[8] = "Last advice: Eat more cookies!!!"
+Global Gui_adpos
+
+Const gtWindow		= 0
+Const gtButton		= 1
+Const gtSlider		= 2
+Const gtFileInput 	= 3
+
+Global mh,mrh,mx,my ; maus gedrückt?
+
+Function Gui_Init() ; GUI zusammenbasteln :)
+	
+	SetFont LoadFont("arial",14,True)
+	
+	Gui_CreateButton.TButton(10,sizey+10,100,18, "Delete"	, 100,100,100, Null ,"Select:Delete")
+	Gui_CreateButton.TButton(10,sizey+30,100,18, "Sand"		, 240,240,230, Null ,"Select:Sand")
+	Gui_CreateButton.TButton(10,sizey+50,100,18, "Stone"	, $c8,$c8,$c8, Null ,"Select:Stone")
+	Gui_CreateButton.TButton(10,sizey+70,100,18, "Oil"		, $da,$a9,$53, Null ,"Select:Oil")
+	Gui_CreateButton.TButton(10,sizey+90,100,18, "Fire"		, $ff,$88,$00, Null ,"Select:Fire")
+	Gui_CreateButton.TButton(10,sizey+110,100,18, "CO2"		, $60,$40,$30, Null ,"Select:CO2")
+	
+	Gui_CreateButton.TButton(120,sizey+10,100,18, "Water"	, $30,$65,$ff, Null ,"Select:Water")
+	Gui_CreateButton.TButton(120,sizey+30,100,18, "Spout"	, $60,$c0,$ff, Null ,"Select:Spout")
+	Gui_CreateButton.TButton(120,sizey+50,100,18, "Steam"	, $00,$74,$a0, Null ,"Select:Steam")
+	Gui_CreateButton.TButton(120,sizey+70,100,18, "Acid"	, $ff,$74,$98, Null ,"Select:Acid")
+	Gui_CreateButton.TButton(120,sizey+90,100,18, "Gras"	, $40,$ec,$61, Null ,"Select:Gras")
+	Gui_CreateButton.TButton(120,sizey+110,100,18, "Cooler"	, $88,$dd,$ff, Null ,"Select:Cooler")
+	Gui_CreateButton.TButton(120,sizey+130,100,18, "Heater"	, $ed,$86,$40, Null ,"Select:Heater")
+	
+	Gui_CreateButton.TButton(230,sizey+10,100,18, "Blackhole"	, $bb,$00,$bb, Null ,"Set:BlackHole")
+	Gui_CreateButton.TButton(230,sizey+30,100,18, "Spawner"	, $aa,$aa,$aa, Null ,"Set:Spawner")
+	Gui_CreateButton.TButton(230,sizey+50,100,18, "VentilatorL"	, $aa,$aa,$aa, Null ,"Set:VentilatorL")
+	Gui_CreateButton.TButton(230,sizey+70,100,18, "VentilatorR"	, $aa,$aa,$aa, Null ,"Set:VentilatorR")
+	
+	Gui_CreateSlider.TSlider(400,sizey+10,100,5, "BrushSize",  4,	Null,	"Change:BrushWidth")
+	Gui_CreateSlider.TSlider(400,sizey+30,100,5, "BrushDensity",  100,	Null,	"Change:BrushDensity")
+	
+	Gui_CreateButton.TButton(520,sizey+10,100,18, "Save"	, $aa,$aa,$bb, Null ,"Save")
+	Gui_CreateButton.TButton(520,sizey+30,100,18, "Load"	, $aa,$aa,$bb, Null ,"Load")
+	Gui_CreateButton.TButton(520,sizey+60,100,18, "Clear All"	, $aa,$aa,$bb, Null ,"Clear")
+	Gui_CreateButton.TButton(520,sizey+80,100,18, "Close"	, $aa,$aa,$bb, Null ,"Close")
+End Function
+
+Function Gui_Event(SenderHandle,name$) ; meine billige event-verwaltung (=
+	Select name$
+	Case ""
+	
+	Case "Select:Delete"
+		Draw_Selected = 0
+	Case "Select:Sand"
+		Draw_Selected = 1
+	Case "Select:Stone"
+		Draw_Selected = 3
+	Case "Select:Oil"
+		Draw_Selected = 4
+	Case "Select:Fire"
+		Draw_Selected = 5
+	Case "Select:CO2"
+		Draw_Selected = 8
+	Case "Select:Water"
+		Draw_Selected = 2
+	Case "Select:Spout"
+		Draw_Selected = 7
+	Case "Select:Steam"
+		Draw_Selected = 9
+	Case "Select:Acid"
+		Draw_Selected = 10
+	Case "Select:Gras"
+		Draw_Selected = 6
+	Case "Select:Cooler"
+		Draw_Selected = 12
+	Case "Select:Heater"
+		Draw_Selected = 11
+		
+	Case "Set:BlackHole"
+		Draw_Set	= otBlackHole
+	Case "Set:Spawner"
+		Draw_Set	= otSpawner
+	Case "Set:VentilatorL"
+		Draw_Set	= otVentilatorL
+	Case "Set:VentilatorR"
+		Draw_Set	= otVentilatorR
+	
+	Case "Change:BrushWidth"
+		s.TSlider = Object.TSlider(SenderHandle)
+		Draw_BrushSize = 1+s\pos
+	Case "Change:BrushDensity"
+		s.TSlider = Object.TSlider(SenderHandle)
+		Draw_Density = ((101-s\pos)^1.2)
+	
+	Case "Save"
+		Sand_Save()
+	Case "Load"
+		FlushKeys
+		Gui_CreateFileInput(GraphicsWidth()/2-200,GraphicsHeight()/2-40,400,80, "Please enter file path!", ""	, Null ,"LoadFile","EscapeFile")
+	Case "LoadFile"
+		f.TFileInput = Object.TFileInput(SenderHandle)
+		Sand_Load(f\txt)
+	Case "EscapeFile"
+
+	Case "Clear"
+		Sand_Clear()
+		Obj_Init()
+	Case "Close"
+		End
+	
+	End Select
+End Function
+
+
+Function Gui_Update()
+	Color 50,50,50
+	Rect 0,sizey,GraphicsWidth(),GraphicsHeight()-sizey
+	mx = MouseX()
+	my = MouseY()
+	mh = MouseHit(1)
+	mrh = MouseHit(2)
+	key = GetKey()
+	For g.TGadget = Each TGadget
+		g\rx = g\x
+		g\ry = g\y
+		
+		If g\parent <> Null Then
+			g\rx = g\x + g\parent\rx
+			g\ry = g\y + g\parent\ry
+		EndIf
+		
+		Select g\typ
+		Case gtWindow
+			
+		Case gtButton
+			b.TButton = Object.TButton(g\Handl)
+			If mx>g\rx And mx<g\rx+g\width And my>g\ry And my<g\ry+g\height Then
+				Color b\r,b\g,b\b
+				Rect g\rx,g\ry,g\width,g\height,True
+				Color 255,255,255
+				Rect g\rx,g\ry,g\width,g\height,False
+				Text g\rx+g\width/2, g\ry+g\height/2, g\caption, True, True
+				If mh Then Gui_Event(Handle(b),b\OnClick)
+			Else				
+				Color b\r/2,b\g/2,b\b/2
+				Rect g\rx,g\ry,g\width,g\height,True
+				Color b\r,b\g,b\b
+				Rect g\rx,g\ry,g\width,g\height,False
+				Text g\rx+g\width/2, g\ry+g\height/2, g\caption, True, True
+			EndIf
+		Case gtSlider
+			s.TSlider = Object.TSlider(g\Handl)
+			Color 255,255,255
+			Text g\rx,g\ry, g\caption
+			If mx>g\rx And mx<g\rx+g\width And my>g\ry+10 And my<g\ry+g\height+18 Then
+				Color 150,150,150
+				Rect g\rx,g\ry+14,g\width,g\height,True
+				Color 255,255,255
+				Rect g\rx,g\ry+14,g\width,g\height,False
+				If mh Then
+					s\changing = 1
+					s\pos = (mx-g\rx)*100/g\width
+					Gui_Event(Handle(s),s\OnChange)
+					If s\pos < 0 Then s\pos = 0
+					If s\pos > 100 Then s\pos = 100
+				ElseIf s\changing = 1
+					s\pos = (mx-g\rx)*100/g\width
+					If s\pos < 0 Then s\pos = 0
+					If s\pos > 100 Then s\pos = 100
+					If MouseDown(1)=0 Then s\changing = 0
+					Gui_Event(Handle(s),s\OnChange)
+				EndIf
+			Else				
+				Color 100,100,100
+				Rect g\rx,g\ry+14,g\width,g\height,True
+				Color 230,230,230
+				Rect g\rx,g\ry+14,g\width,g\height,False
+				
+				If s\changing = 1
+					s\pos = (mx-g\rx)*100/g\width
+					If s\pos < 0 Then s\pos = 0
+					If s\pos > 100 Then s\pos = 100
+					If MouseDown(1) =0 Then s\changing = 0
+					Gui_Event(Handle(s),s\OnChange)
+				EndIf
+			EndIf
+			Color 255,255,255
+			Rect g\rx+s\pos*g\width/100-1,g\ry+12,3,g\height+4
+		Case gtFileInput
+			f.TFileInput = Object.TFileInput(g\Handl)
+			If f = Null Then 
+				Delete g
+			Else
+				Color 150,150,150
+				Rect g\rx,g\ry,g\width,g\height,True
+				Color 255,255,255
+				Rect g\rx,g\ry,g\width,g\height,False
+				
+				Text g\rx+g\width/2,g\ry+5,g\caption,1
+				
+				Rect g\rx+10,g\ry+30,g\width-20,20,0
+				txt$ = f\txt
+				While StringWidth(txt$) > g\width-30
+					txt = Right(txt,Len(txt)-2)
+				Wend
+				Text g\rx+15,g\ry+34,txt
+				
+				Select key
+				Case 0
+				Case 13; enter
+					Gui_Event(Handle(f),f\OnClick)
+					Delete f
+				Case 8 ; backspace
+					If Len(f\txt)>0 Then f\txt = Left(f\txt,Len(f\txt)-1)
+				Case 27; escaepe 
+					Gui_Event(Handle(f),f\OnEscape)
+					Delete f
+				Default
+					f\txt = f\txt + Chr(key)
+				End Select
+			EndIf
+		End Select
+	Next
+	
+	Color 230,230,230
+	gui_adpos = (gui_adpos+1) Mod (4499)
+	If gui_adpos = 0 Then gui_adpos = 1
+	Text 10,GraphicsHeight()-14,gui_ad[Ceil(gui_adpos/500)]
+End Function
+
+Function Gui_NewGadget.TGadget(x,y,width,height,caption$,typ,handl,parent.TGadget)
+	g.TGadGet	= New TGadGet
+	g\x			= x
+	g\y			= y
+	g\width		= width
+	g\height	= height
+	g\caption	= caption
+	g\parent	= parent
+	g\typ		= typ
+	g\handl		= handl
+	Return g
+End Function
+
+Function Gui_CreateButton.TButton(x,y,width,height, caption$, r,g,bl, parent.TGadget ,onclick$,hotkey=0)
+	b.TButton	= New TButton
+	Gui_NewGadget(x,y,width,height,caption$,gtButton,Handle(b),parent.TGadget)
+	
+	b\r			= r
+	b\g			= g
+	b\b			= bl
+	
+	b\onclick	= onclick
+	b\hotkey	= hotkey
+	
+	Return b
+End Function
+
+Function Gui_CreateSlider.TSlider(x,y,width,height, caption$, pos, parent.TGadget ,OnChange$)
+	s.TSlider	= New TSlider
+	Gui_NewGadget(x,y,width,height,caption$,gtSlider,Handle(s),parent.TGadget)
+	
+	s\pos		= pos
+	
+	s\onChange	= onChange
+	
+	Return s
+End Function
+
+Function Gui_CreateFileInput.TFileInput(x,y,width,height, caption$, txt$, parent.TGadget ,onclick$, onescape$)
+	f.TFileInput= New TFileInput
+	Gui_NewGadget(x,y,width,height,caption$,gtFileInput,Handle(f),parent.TGadget)
+	
+	f\onclick	= onclick
+	f\onescape	= onescape
+	f\txt		= txt$
+	
+	Return f
+End Function
