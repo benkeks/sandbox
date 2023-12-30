@@ -21,7 +21,7 @@ Function Obj_Update()
 	For o.TObject = Each TObject
 		Select o\typ
 		Case otBlackHole
-			For i2 = 0 To 60
+			For i2 = 0 To 1 + o\size
 				le = Rand(o\size/2,o\size)
 				dir# = Rnd(360)
 				s# = Sin(dir)
@@ -34,23 +34,12 @@ Function Obj_Update()
 					x2 = o\x + c*(i+1)
 					y2 = o\y + s*(i+1)
 					If x > 0 And y > 0 And x < sizex-1 And y < sizey-1 Then
-						If x2 > 2 And y2 > 2 And x2 < sizex-3 And y2 < sizey-3 Then
+						If x2 > 2 And y2 > 2 And x2 < sizex-3 And y2 < sizey-3 And i < le Then
 							t2 = PeekByte(bank,x2*sizey-y2)
 						Else
 							t2 = 0
 						EndIf
-						;If b\donotabsorb=0 Then 
-							PokeByte bank,x*sizey-y,t2
-						;Else
-						;	If t2 = b\donotabsorb Then
-						;		t2=0
-						;	Else
-						;		t2 = PeekByte(bank,x2*sizey-y2)
-						;	EndIf
-						;	If PeekByte(bank,x*sizey-y) <> b\donotabsorb
-						;		PokeByte bank,x*sizey-y,t2
-						;	EndIf
-						;EndIf
+						PokeByte bank,x*sizey-y,t2
 					EndIf
 					x2 = x
 					y2 = y
