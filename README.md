@@ -47,3 +47,5 @@ blitzcc -o sand.exe main.bb
 ```
 
 For technical reasons, this repository contains a copy of `fmod.dll` that would otherwise be supplied by the Blitz3d installation.
+
+Some parts of the code are plagued by manual inlining that paid off with the Blitz compiler back in 2006, but today mostly means that it's harder to maintain. Sorry for that!
