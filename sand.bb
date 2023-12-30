@@ -1,16 +1,62 @@
-CONST sand_EMPTY	= 0
-CONST sand_SAND		= 1
-CONST sand_WATER	= 2
-CONST sand_STONE	= 3
-CONST sand_OIL		= 4
-CONST sand_FIRE		= 5
-CONST sand_GRAS		= 6
-CONST sand_SPOUT	= 7
-CONST sand_CO2		= 8
-CONST sand_STEAM	= 9
-CONST sand_ACID		= 10
-CONST sand_HEATER	= 11
-CONST sand_COOLER	= 12
+Const sand_EMPTY	= 0
+Const sand_SAND		= 1
+Const sand_WATER	= 2
+Const sand_STONE	= 3
+Const sand_OIL		= 4
+Const sand_FIRE		= 5
+Const sand_GRAS		= 6
+Const sand_SPOUT	= 7
+Const sand_CO2		= 8
+Const sand_STEAM	= 9
+Const sand_ACID		= 10
+Const sand_HEATER	= 11
+Const sand_COOLER	= 12
+
+Global sand_color[32]
+Global sand_color_light[32]
+Global sand_color_dark[32]
+
+sand_color[sand_EMPTY]		= 0
+sand_color[sand_SAND]		= $ccccaa
+sand_color[sand_WATER]		= $0000ff
+sand_color[sand_STONE]		= $888888
+sand_color[sand_OIL]		= $aa9933
+sand_color[sand_FIRE]		= $ff8800
+sand_color[sand_GRAS]		= $00cc11
+sand_color[sand_SPOUT]		= $40a0ff
+sand_color[sand_CO2]		= $604030
+sand_color[sand_STEAM]		= $0030a0
+sand_color[sand_ACID]		= $ff0033
+sand_color[sand_HEATER]		= $ed8640
+sand_color[sand_COOLER]		= $88ddff
+
+sand_color_light[sand_EMPTY]	= 0
+sand_color_light[sand_SAND]		= $ffffff
+sand_color_light[sand_WATER]	= $3065ff
+sand_color_light[sand_STONE]	= $c8c8c8
+sand_color_light[sand_OIL]		= $daa953
+sand_color_light[sand_FIRE]		= $ff8800
+sand_color_light[sand_GRAS]		= $40ec61
+sand_color_light[sand_SPOUT]	= $60c0ff
+sand_color_light[sand_CO2]		= $604030
+sand_color_light[sand_STEAM]	= $0030a0
+sand_color_light[sand_ACID]		= $ff7498
+sand_color_light[sand_HEATER]	= $ed8640
+sand_color_light[sand_COOLER]	= $88ddff
+
+sand_color_dark[sand_EMPTY]		= 0
+sand_color_dark[sand_SAND]		= $bbbbbb
+sand_color_dark[sand_WATER]		= $0000bb
+sand_color_dark[sand_STONE]		= $555555
+sand_color_dark[sand_OIL]		= $774400
+sand_color_dark[sand_FIRE]		= $ff8800
+sand_color_dark[sand_GRAS]		= $009900
+sand_color_dark[sand_SPOUT]		= $1188aa
+sand_color_dark[sand_CO2]		= $604030
+sand_color_dark[sand_STEAM]		= $0030a0
+sand_color_dark[sand_ACID]		= $aa0000
+sand_color_dark[sand_HEATER]	= $ed8640
+sand_color_dark[sand_COOLER]	= $88ddff
 
 Function UpdateSand()
 	LockBuffer BackBuffer()
@@ -812,97 +858,15 @@ Function UpdateSand()
 					End Select
 
 				End Select
-				
-				If showtyp2 <> showtyp ; hell
-					Select showtyp
-					Case sand_EMPTY ; nichts
-						col = 0
-					Case sand_SAND ; sand
-						col = $ffffff
-					Case sand_WATER ; wasser
-						col = $3065ff
-					Case sand_STONE ; stein
-						col = $c8c8c8
-					Case sand_OIL ; öl
-						col = $daa953
-					Case sand_FIRE ; feuer
-						col = $ff8800
-					Case 6 ; gras
-						col = $40ec61
-					Case 7 ; wolke
-						col = $60c0ff
-					Case 8 ; co2 (gas)
-						col = $604030
-					Case sand_STEAM ; wasserdampf
-						col = $0030a0
-					Case sand_ACID; säure
-						col = $ff7498
-					Case sand_HEATER; herd
-						col = $ed8640
-					Case sand_COOLER; kühler
-						col = $88ddff
-					End Select
-					If col Then WritePixelFast x,sizey-y,col
-				ElseIf typo2 <> showtyp ; dunkel
-					Select showtyp
-					Case sand_EMPTY ; nichts
-						col = 0
-					Case sand_SAND ; sand
-						col = $bbbbbb
-					Case sand_WATER ; wasser
-						col = $0000bb
-					Case sand_STONE ; stein
-						col = $555555
-					Case sand_OIL ; öl
-						col = $774400
-					Case sand_FIRE ; feuer
-						col = $ff8800
-					Case 6 ; gras
-						col = $009900
-					Case 7 ; wolke
-						col = $1188aa
-					Case 8 ; co2 (gas)
-						col = $604030
-					Case sand_STEAM ; wasserdampf
-						col = $0030a0
-					Case sand_ACID; säure
-						col = $aa0000
-					Case sand_HEATER; herd
-						col = $ed8640
-					Case sand_COOLER; kühler
-						col = $88ddff
-					End Select
-					If col Then WritePixelFast x,sizey-y,col
-				Else
-					Select showtyp
-					Case sand_EMPTY ; nichts
-						col = 0
-					Case sand_SAND ; sand
-						col = $ccccaa
-					Case sand_WATER ; wasser
-						col = $0000ff
-					Case sand_STONE ; stein
-						col = $888888
-					Case sand_OIL ; öl
-						col = $aa9933
-					Case sand_FIRE ; feuer
-						col = $ff8800
-					Case 6 ; gras
-						col = $00cc11
-					Case 7 ; wolke
-						col = $40a0ff
-					Case 8 ; co2 (gas)
-						col = $604030
-					Case sand_STEAM ; wasserdampf
-						col = $0030a0
-					Case sand_ACID; säure
-						col = $ff0033
-					Case sand_HEATER; herd
-						col = $ed8640
-					Case sand_COOLER; kühler
-						col = $88ddff
-					End Select
-					If col Then WritePixelFast x,sizey-y,col
+
+				If showtyp <> sand_EMPTY Then
+					If showtyp2 <> showtyp Then
+						WritePixelFast x,sizey-y, sand_color_light[showtyp]
+					ElseIf typo2 <> showtyp Then
+						WritePixelFast x,sizey-y, sand_color_dark[showtyp]
+					Else
+						WritePixelFast x,sizey-y, sand_color[showtyp]
+					EndIf
 				EndIf
 				typo2 = showtyp
 				typo = typ
@@ -978,36 +942,7 @@ Function Sand_SaveB()
 	For x = 0 To sizex-1
 		For y = 0 To sizey-1
 			mat = PeekByte(bank,x*sizey+y)
-			col = 0
-			Select mat
-			Case sand_EMPTY ; nichts
-				col = 0
-			Case sand_SAND ; sand
-				col = $ccccaa
-			Case sand_WATER ; wasser
-				col = $0000ff
-			Case sand_STONE ; stein
-				col = $888888
-			Case sand_OIL ; öl
-				col = $aa9933
-			Case sand_FIRE ; feuer
-				col = $ff8800
-			Case 6 ; gras
-				col = $00cc11
-			Case 7 ; wolke
-				col = $40a0ff
-			Case 8 ; co2 (gas)
-				col = $604030
-			Case sand_STEAM ; wasserdampf
-				col = $0030a0
-			Case sand_ACID; säure
-				col = $ff0033
-			Case sand_HEATER; herd
-				col = $ed8640
-			Case sand_COOLER; kühler
-				col = $88ddff
-			End Select
-			If col WritePixelFast x,sizey-y-1,col
+			WritePixelFast x,sizey-y-1,sand_color[mat]
 		Next
 	Next
 	UnlockBuffer ImageBuffer(img)
