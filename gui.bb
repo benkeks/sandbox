@@ -178,11 +178,12 @@ Function Gui_Update()
 				Rect g\rx,g\ry,g\width,g\height,False
 				Text g\rx+g\width/2, g\ry+g\height/2, g\caption, True, True
 				If mh Then Gui_Event(Handle(b),b\OnClick)
-			Else				
+			Else
 				Color b\r/2,b\g/2,b\b/2
 				Rect g\rx,g\ry,g\width,g\height,True
 				Color b\r,b\g,b\b
 				Rect g\rx,g\ry,g\width,g\height,False
+				Color 255,255,255
 				Text g\rx+g\width/2, g\ry+g\height/2, g\caption, True, True
 			EndIf
 		Case gtSlider
