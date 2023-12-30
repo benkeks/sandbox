@@ -43,10 +43,10 @@ Function UpdateSand()
 									If Rand(0,400) Then PokeByte bank,x*sizey-sizey+y+1,typ
 									PokeByte bank,off,typ2
 									typ = typ2
-								ElseIf typ2 <> sand_EMPTY And typ2 < sand_ACID And typ2 <> 8 And Rand(0,1)
+								ElseIf typ2 <> sand_EMPTY And typ2 < sand_ACID And typ2 <> sand_CO2 And Rand(0,1)
 									If Rand(0,1) Then PokeByte bank,off-sizey+1,typ
 									PokeByte bank,off,8
-									typ = 8
+									typ = sand_CO2
 								EndIf
 							EndIf
 						Case 2
@@ -56,10 +56,10 @@ Function UpdateSand()
 									If Rand(0,400) Then PokeByte bank,off+1,typ
 									PokeByte bank,off,typ2
 									typ = typ2
-								ElseIf typ2 <> sand_EMPTY And typ2 < sand_ACID And typ2 <> 8 And Rand(0,1)
+								ElseIf typ2 <> sand_EMPTY And typ2 < sand_ACID And typ2 <> sand_CO2 And Rand(0,1)
 									If Rand(0,1) Then PokeByte bank,off+1,typ
 									PokeByte bank,off,8
-									typ = 8
+									typ = sand_CO2
 								EndIf
 							EndIf
 						Case 3
@@ -69,10 +69,10 @@ Function UpdateSand()
 									If Rand(0,400) Then PokeByte bank,x*sizey+sizey+y+1,typ
 									PokeByte bank,off,typ2
 									typ = typ2
-								ElseIf typ2 <> sand_EMPTY And typ2 < sand_ACID And typ2 <> 8 And Rand(0,1)
+								ElseIf typ2 <> sand_EMPTY And typ2 < sand_ACID And typ2 <> sand_CO2 And Rand(0,1)
 									If Rand(0,1) Then PokeByte bank,off+sizey+1,typ
 									PokeByte bank,off,8
-									typ = 8
+									typ = sand_CO2
 								EndIf
 							EndIf
 						Case 4
@@ -82,10 +82,10 @@ Function UpdateSand()
 									If Rand(0,400) Then PokeByte bank,x*sizey-sizey+y,typ
 									PokeByte bank,off,typ2
 									typ = typ2
-								ElseIf typ2 <> sand_EMPTY And typ2 < sand_ACID And typ2 <> 8 And Rand(0,1)
+								ElseIf typ2 <> sand_EMPTY And typ2 < sand_ACID And typ2 <> sand_CO2 And Rand(0,1)
 									If Rand(0,1) Then PokeByte bank,off-sizey,typ
 									PokeByte bank,off,8
-									typ = 8
+									typ = sand_CO2
 								EndIf
 							EndIf
 						Case 5
@@ -95,10 +95,10 @@ Function UpdateSand()
 									If Rand(0,400) Then PokeByte bank,x*sizey+sizey+y,typ
 									PokeByte bank,off,typ2
 									typ = typ2
-								ElseIf typ2 <> sand_EMPTY And typ2 < sand_ACID And typ2 <> 8 And Rand(0,1)
+								ElseIf typ2 <> sand_EMPTY And typ2 < sand_ACID And typ2 <> sand_CO2 And Rand(0,1)
 									If Rand(0,1) Then PokeByte bank,off+sizey,typ
 									PokeByte bank,off,8
-									typ = 8
+									typ = sand_CO2
 								EndIf
 							EndIf
 						Case 6
@@ -108,10 +108,10 @@ Function UpdateSand()
 									If Rand(0,400) Then PokeByte bank,x*sizey-sizey+y-1,typ
 									PokeByte bank,off,typ2
 									typ = typ2
-								ElseIf typ2 <> sand_EMPTY And typ2 < sand_ACID And typ2 <> 8 And Rand(0,1)
+								ElseIf typ2 <> sand_EMPTY And typ2 < sand_ACID And typ2 <> sand_CO2 And Rand(0,1)
 									If Rand(0,1) Then PokeByte bank,off-sizey-1,typ
 									PokeByte bank,off,8
-									typ = 8
+									typ = sand_CO2
 								EndIf
 							EndIf
 						Case 7
@@ -121,10 +121,10 @@ Function UpdateSand()
 									If Rand(0,400) Then PokeByte bank,off-1,typ
 									PokeByte bank,off,typ2
 									typ = typ2
-								ElseIf typ2 <> sand_EMPTY And typ2 < sand_ACID And typ2 <> 8 And Rand(0,1)
+								ElseIf typ2 <> sand_EMPTY And typ2 < sand_ACID And typ2 <> sand_CO2 And Rand(0,1)
 									If Rand(0,1) Then PokeByte bank,off-1,typ
 									PokeByte bank,off,8
-									typ = 8
+									typ = sand_CO2
 								EndIf
 							EndIf
 						Case 8
@@ -134,15 +134,15 @@ Function UpdateSand()
 									If Rand(0,400) Then PokeByte bank,x*sizey+sizey+y-1,typ
 									PokeByte bank,off,typ2
 									typ = typ2
-								ElseIf typ2 <> sand_EMPTY And typ2 < sand_ACID And typ2 <> 8 And Rand(0,1)
+								ElseIf typ2 <> sand_EMPTY And typ2 < sand_ACID And typ2 <> sand_CO2 And Rand(0,1)
 									If Rand(0,1) Then PokeByte bank,off+sizey-1,typ
 									PokeByte bank,off,8
-									typ = 8
+									typ = sand_CO2
 								EndIf
 							EndIf
 						End Select
 					EndIf
-					If typo = sand_EMPTY Or typo = 8 Or typo=9 Or (typ = sand_SAND And (typo = sand_WATER Or typo=4)) Or (typ = sand_WATER And typo=4) Then
+					If typo = sand_EMPTY Or typo = sand_CO2 Or typo = sand_STEAM Or (typ = sand_SAND And (typo = sand_WATER Or typo = sand_OIL)) Or (typ = sand_WATER And typo = sand_OIL) Then
 						If typo = sand_EMPTY Or Rand(0,1)
 							If Rand(10)>1 
 								PokeByte bank,off,typo
@@ -151,7 +151,7 @@ Function UpdateSand()
 							EndIf
 						EndIf
 					ElseIf y > 0 
-						If typ = sand_WATER Or typ = 4
+						If typ = sand_WATER Or typ = sand_OIL
 							If x < 1
 								typ3 = typ
 							Else
@@ -165,19 +165,19 @@ Function UpdateSand()
 							EndIf
 							
 							
-							If typ2 = typ And (typ3 = sand_EMPTY Or (typ3 = 4 And typ = sand_WATER) Or ((typ3=8 Or typ3=9) And Rand(0,1)))
+							If typ2 = typ And (typ3 = sand_EMPTY Or (typ3 = sand_OIL And typ = sand_WATER) Or ((typ3 = sand_CO2 Or typ3 = sand_STEAM) And Rand(0,1)))
 								PokeByte bank,off,typ3
 								PokeByte bank,x*sizey-sizey+y,typ
 								typ = typ3
 								moved = 1
-							ElseIf typ3 = typ And (typ2 = sand_EMPTY Or (typ2 = 4 And typ = sand_WATER) Or ((typ2=8 Or typ2=9) And Rand(0,1)))
+							ElseIf typ3 = typ And (typ2 = sand_EMPTY Or (typ2 = sand_OIL And typ = sand_WATER) Or ((typ2 = sand_CO2 Or typ2 = sand_STEAM) And Rand(0,1)))
 								PokeByte bank,off,typ2
 								PokeByte bank,x*sizey+sizey+y,typ
 								typ = typ2
 								moved = 1
 							EndIf
 						EndIf
-						If typ = sand_WATER Or typ = 4 Or typ = sand_ACID
+						If typ = sand_WATER Or typ = sand_OIL Or typ = sand_ACID
 							If x < 1
 								typ3 = typ
 							Else
@@ -191,12 +191,12 @@ Function UpdateSand()
 							EndIf
 						
 							
-							If typ2 = typ And (typ3 = sand_EMPTY Or (typ3 = 4 And typ = sand_WATER))
+							If typ2 = typ And (typ3 = sand_EMPTY Or (typ3 = sand_OIL And typ = sand_WATER))
 								PokeByte bank,off,typ3
 								PokeByte bank,x*sizey-sizey+y,typ
 								typ = typ3
 								moved = 1
-							ElseIf typ3 = typ And (typ2 = sand_EMPTY Or (typ2 = 4 And typ = sand_WATER))
+							ElseIf typ3 = typ And (typ2 = sand_EMPTY Or (typ2 = sand_OIL And typ = sand_WATER))
 								PokeByte bank,off,typ2
 								PokeByte bank,x*sizey+sizey+y,typ
 								typ = typ2
@@ -216,12 +216,12 @@ Function UpdateSand()
 							EndIf
 						
 							
-							If typ2 = typ And (typ3 = sand_EMPTY Or (typ3 = 4 And typ = sand_WATER))
+							If typ2 = typ And (typ3 = sand_EMPTY Or (typ3 = sand_OIL And typ = sand_WATER))
 								PokeByte bank,off,typ3
 								PokeByte bank,x*sizey-sizey+y,typ
 								typ = typ3
 								moved = 1
-							ElseIf typ3 = typ And (typ2 = sand_EMPTY Or (typ2 = 4 And typ = sand_WATER))
+							ElseIf typ3 = typ And (typ2 = sand_EMPTY Or (typ2 = sand_OIL And typ = sand_WATER))
 								PokeByte bank,off,typ2
 								PokeByte bank,x*sizey+sizey+y,typ
 								typ = typ2
@@ -229,17 +229,16 @@ Function UpdateSand()
 							EndIf
 						EndIf
 						
-					
 						If Rand(1,2) = 1 And x < sizex-2
 							typ2 = PeekByte(bank,x*sizey+sizey+y-1)
-							If typ2 = sand_EMPTY Or (typ2 = sand_WATER And typ = sand_SAND And Rand(0,1)) Or ((typ2 = 4 Or typ2 = 8 Or typ2=9) And Rand(0,1))
+							If typ2 = sand_EMPTY Or (typ2 = sand_WATER And typ = sand_SAND And Rand(0,1)) Or ((typ2 = sand_OIL Or typ2 = sand_CO2 Or typ2 = sand_STEAM) And Rand(0,1))
 								PokeByte bank,off,typ2
 								PokeByte bank,x*sizey+sizey+y-1,typ
 								typ = typ2
 								moved = 1
 							ElseIf Rand(0,1) And x < sizex-3
 								typ2 = PeekByte(bank,x*sizey+sizey*2+y-1)
-								If typ2 = sand_EMPTY Or (typ2 = sand_WATER And typ = sand_SAND And Rand(0,1)) Or ((typ2 = 4 Or typ2 = 8 Or typ2=9) And Rand(0,1))
+								If typ2 = sand_EMPTY Or (typ2 = sand_WATER And typ = sand_SAND And Rand(0,1)) Or ((typ2 = sand_OIL Or typ2 = sand_CO2 Or typ2 = sand_STEAM) And Rand(0,1))
 									PokeByte bank,off,typ2
 									PokeByte bank,x*sizey+sizey*2+y-1,typ
 									typ = typ2
@@ -248,14 +247,14 @@ Function UpdateSand()
 							EndIf
 						ElseIf x > 1
 							typ2 = PeekByte(bank,x*sizey-sizey+y-1)
-							If typ2 = sand_EMPTY Or (typ2 = sand_WATER And typ = sand_SAND And Rand(0,1)) Or ((typ2 = 4 Or typ2 = 8 Or typ2=9) And Rand(0,1))
+							If typ2 = sand_EMPTY Or (typ2 = sand_WATER And typ = sand_SAND And Rand(0,1)) Or ((typ2 = sand_OIL Or typ2 = sand_CO2 Or typ2 = sand_STEAM) And Rand(0,1))
 								PokeByte bank,off,typ2
 								PokeByte bank,x*sizey-sizey+y-1,typ
 								typ = typ2
 								moved = 1
 							ElseIf Rand(0,1) And x > 2
 								typ2 = PeekByte(bank,x*sizey-sizey*2+y-1)
-								If typ2 = sand_EMPTY Or (typ2 = sand_WATER And typ = sand_SAND And Rand(0,1)) Or ((typ2 = 4 Or typ2 = 8 Or typ2=9) And Rand(0,1))
+								If typ2 = sand_EMPTY Or (typ2 = sand_WATER And typ = sand_SAND And Rand(0,1)) Or ((typ2 = sand_OIL Or typ2 = sand_CO2 Or typ2 = sand_STEAM) And Rand(0,1))
 									PokeByte bank,off,typ2
 									PokeByte bank,x*sizey-sizey*2+y-1,typ
 									typ = typ2
@@ -264,11 +263,11 @@ Function UpdateSand()
 							EndIf
 						EndIf
 					EndIf
-				Case 5 ; feuer
+				Case sand_FIRE ; feuer
 					If Rand(50)=1
 						PokeByte bank,off,8
-						If PeekByte(bank,off+1) = 2 Then PokeByte bank,off,9
-						typ = 8
+						If PeekByte(bank,off+1) = sand_WATER Then PokeByte bank,off,9
+						typ = sand_CO2
 					ElseIf Rand(0,1) And y < sizey-2
 						typ2 = PeekByte(bank,off+1)
 						Select typ2
@@ -278,15 +277,15 @@ Function UpdateSand()
 								PokeByte bank,off+1,typ
 								typ = typ2
 							EndIf
-						Case sand_SAND,3,sand_HEATER
+						Case sand_SAND,sand_STONE,sand_HEATER
 							If Rand(10)=2
 								PokeByte bank,off,0
 								typ = sand_EMPTY
 							EndIf
 						Case sand_WATER,sand_COOLER
 							PokeByte bank,off,9
-							typ = 9
-						Case 4,6
+							typ = sand_STEAM
+						Case sand_OIL,sand_GRAS
 							If Rand(0,1)
 								PokeByte bank,off+1,typ
 								typ = typ
@@ -302,7 +301,7 @@ Function UpdateSand()
 									PokeByte bank,x*sizey+sizey+y-1,typ
 									typ = typ2
 								EndIf
-							Case sand_SAND,3,sand_HEATER
+							Case sand_SAND,sand_STONE,sand_HEATER
 								If Rand(10)=2
 									PokeByte bank,off,0
 									typ = sand_EMPTY
@@ -312,7 +311,7 @@ Function UpdateSand()
 									PokeByte bank,off,0
 									typ = sand_EMPTY
 								EndIf
-							Case 4,6
+							Case sand_OIL,sand_GRAS
 								If Rand(0,1)
 									PokeByte bank,x*sizey+sizey+y-1,typ
 									typ = typ
@@ -327,7 +326,7 @@ Function UpdateSand()
 									PokeByte bank,x*sizey-sizey+y-1,typ
 									typ = typ2
 								EndIf
-							Case sand_SAND,3,sand_HEATER
+							Case sand_SAND,sand_STONE,sand_HEATER
 								If Rand(10)=2
 									PokeByte bank,off,0
 									typ = sand_EMPTY
@@ -337,7 +336,7 @@ Function UpdateSand()
 									PokeByte bank,off,0
 									typ = sand_EMPTY
 								EndIf
-							Case 4,6
+							Case sand_OIL,sand_GRAS
 								If Rand(0,1)
 									PokeByte bank,x*sizey-sizey+y-1,typ
 									typ = typ
@@ -352,7 +351,7 @@ Function UpdateSand()
 									PokeByte bank,off+1,typ
 									typ = typ2
 								EndIf
-							Case sand_SAND,3,sand_HEATER
+							Case sand_SAND,sand_STONE,sand_HEATER
 								If Rand(10)=2
 									PokeByte bank,off,0
 									typ = sand_EMPTY
@@ -360,7 +359,7 @@ Function UpdateSand()
 							Case sand_WATER,sand_COOLER
 								PokeByte bank,off,0
 								typ = sand_EMPTY
-							Case 4,6
+							Case sand_OIL,sand_GRAS
 								If Rand(0,1)
 									PokeByte bank,off+1,typ
 									typ = typ
@@ -375,7 +374,7 @@ Function UpdateSand()
 								PokeByte bank,off,typ2
 								PokeByte bank,x*sizey+sizey+y,typ
 								typ = typ2
-							Case sand_SAND,3,sand_HEATER
+							Case sand_SAND,sand_STONE,sand_HEATER
 								If Rand(10)=2
 									PokeByte bank,off,0
 									typ = sand_EMPTY
@@ -385,7 +384,7 @@ Function UpdateSand()
 									PokeByte bank,off,0
 									typ = sand_EMPTY
 								EndIf
-							Case 4,6
+							Case sand_OIL,sand_GRAS
 								If Rand(0,1)
 									PokeByte bank,x*sizey+sizey+y,typ
 									typ = typ
@@ -398,7 +397,7 @@ Function UpdateSand()
 								PokeByte bank,off,typ2
 								PokeByte bank,x*sizey-sizey+y,typ
 								typ = typ2
-							Case sand_SAND,3,sand_HEATER
+							Case sand_SAND,sand_STONE,sand_HEATER
 								If Rand(10)=2
 									PokeByte bank,off,0
 									typ = sand_EMPTY
@@ -408,7 +407,7 @@ Function UpdateSand()
 									PokeByte bank,off,0
 									typ = sand_EMPTY
 								EndIf
-							Case 4,6
+							Case sand_OIL,sand_GRAS
 								If Rand(0,1)
 									PokeByte bank,x*sizey-sizey+y,typ
 									typ = typ
@@ -416,7 +415,7 @@ Function UpdateSand()
 							End Select
 						EndIf
 					EndIf
-				Case 6 ; pflanze
+				Case sand_GRAS
 					r = Rand(1,80)
 					Select r
 					Case 1
@@ -424,7 +423,7 @@ Function UpdateSand()
 							typ2 = PeekByte(bank,x*sizey-sizey+y+1)
 							If typ2 = sand_WATER
 								PokeByte bank,x*sizey-sizey+y+1,typ
-							ElseIf typ2 = 8 And Rand(1)
+							ElseIf typ2 = sand_CO2 And Rand(1)
 								PokeByte bank,x*sizey-sizey+y+1,0
 							EndIf
 						EndIf
@@ -433,7 +432,7 @@ Function UpdateSand()
 							typ2 = PeekByte(bank,off+1)
 							If typ2 = sand_WATER
 								PokeByte bank,off+1,typ
-							ElseIf typ2 = 8 And Rand(1)
+							ElseIf typ2 = sand_CO2 And Rand(1)
 								PokeByte bank,x*sizey+y-1,0
 							EndIf
 						EndIf
@@ -442,7 +441,7 @@ Function UpdateSand()
 							typ2 = PeekByte(bank,x*sizey+sizey+y+1)
 							If typ2 = sand_WATER
 								PokeByte bank,x*sizey+sizey+y+1,typ
-							ElseIf typ2 = 8 And Rand(1)
+							ElseIf typ2 = sand_CO2 And Rand(1)
 								PokeByte bank,x*sizey+sizey+y+1,0
 							EndIf
 						EndIf
@@ -451,7 +450,7 @@ Function UpdateSand()
 							typ2 = PeekByte(bank,x*sizey-sizey+y)
 							If typ2 = sand_WATER
 								PokeByte bank,x*sizey-sizey+y,typ
-							ElseIf typ2 = 8 And Rand(1)
+							ElseIf typ2 = sand_CO2 And Rand(1)
 								PokeByte bank,x*sizey-sizey+y,0
 							EndIf
 						EndIf
@@ -460,7 +459,7 @@ Function UpdateSand()
 							typ2 = PeekByte(bank,x*sizey+sizey+y)
 							If typ2 = sand_WATER
 								PokeByte bank,x*sizey+sizey+y,typ
-							ElseIf typ2 = 8 And Rand(1)
+							ElseIf typ2 = sand_CO2 And Rand(1)
 								PokeByte bank,x*sizey+sizey+y,0
 							EndIf
 						EndIf
@@ -469,7 +468,7 @@ Function UpdateSand()
 							typ2 = PeekByte(bank,x*sizey-sizey+y-1)
 							If typ2 = sand_WATER
 								PokeByte bank,x*sizey-sizey+y-1,typ
-							ElseIf typ2 = 8 And Rand(1)
+							ElseIf typ2 = sand_CO2 And Rand(1)
 								PokeByte bank,x*sizey-sizey+y-1,0
 							EndIf
 						EndIf
@@ -478,7 +477,7 @@ Function UpdateSand()
 							typ2 = PeekByte(bank,off-1)
 							If typ2 = sand_WATER
 								PokeByte bank,off-1,typ
-							ElseIf typ2 = 8 And Rand(1)
+							ElseIf typ2 = sand_CO2 And Rand(1)
 								PokeByte bank,x*sizey+y-1,0
 							EndIf
 						EndIf
@@ -487,28 +486,28 @@ Function UpdateSand()
 							typ2 = PeekByte(bank,x*sizey+sizey+y-1)
 							If typ2 = sand_WATER
 								PokeByte bank,x*sizey+sizey+y-1,typ
-							ElseIf typ2 = 8 And Rand(1)
+							ElseIf typ2 = sand_CO2 And Rand(1)
 								PokeByte bank,x*sizey+sizey+y-1,0
 							EndIf
 						EndIf
 					Case 38
 						If Rand(20)=1 Then	PokeByte bank,off,4
 					End Select
-				Case 7 ; wolke
+				Case sand_SPOUT
 					If Rand(0,30)=4 And y > 1
 						typ2 = PeekByte(bank,off-1)
 						If typ2 = sand_EMPTY
 							PokeByte bank,off-1,2
 						EndIf
 					EndIf
-				Case 8,9 ; wasser/co2-gas
+				Case sand_CO2, sand_STEAM
 					moved = 0
 					typo = PeekByte(bank,off+1)
-					If Rand(300)=1 And typ = 9 Then
+					If Rand(300)=1 And typ = sand_STEAM Then
 						typ = sand_WATER
 						PokeByte bank,off,typ
 					Else
-						If y < sizey-1 And Rand(0,6)=2 And typo = sand_EMPTY ;<> 3 And typo <> 6 And typo <> 7 And typo <> sand_HEATER And typo<>sand_COOLER
+						If y < sizey-1 And Rand(0,6)=2 And typo = sand_EMPTY ;<> sand_STONE And typo <> sand_GRAS And typo <> sand_SPOUT And typo <> sand_HEATER And typo<>sand_COOLER
 							PokeByte bank,off,typo
 							If y < sizey-2 Then PokeByte bank,off+1,typ
 							typ = typo
@@ -683,7 +682,7 @@ Function UpdateSand()
 							typ2 = PeekByte(bank,x*sizey-sizey+y+1)
 							If typ2 = sand_WATER
 								PokeByte bank,x*sizey-sizey+y+1,9
-							ElseIf typ2 > 1 And typ2 < 8 And typ2 <> 5
+							ElseIf typ2 > 1 And typ2 < 8 And typ2 <> sand_FIRE
 								PokeByte bank,x*sizey-sizey+y+1,5
 							EndIf
 						EndIf
@@ -692,7 +691,7 @@ Function UpdateSand()
 							typ2 = PeekByte(bank,off+1)
 							If typ2 = sand_WATER
 								PokeByte bank,off+1,9
-							ElseIf typ2 > 1 And typ2 < 8 And typ2 <> 5
+							ElseIf typ2 > 1 And typ2 < 8 And typ2 <> sand_FIRE
 								PokeByte bank,off+1,5
 							EndIf
 						EndIf
@@ -701,7 +700,7 @@ Function UpdateSand()
 							typ2 = PeekByte(bank,x*sizey+sizey+y+1)
 							If typ2 = sand_WATER
 								PokeByte bank,x*sizey+sizey+y+1,9
-							ElseIf typ2 > 1 And typ2 < 8 And typ2 <> 5
+							ElseIf typ2 > 1 And typ2 < 8 And typ2 <> sand_FIRE
 								PokeByte bank,x*sizey+sizey+y+1,5
 							EndIf
 						EndIf
@@ -710,7 +709,7 @@ Function UpdateSand()
 							typ2 = PeekByte(bank,x*sizey-sizey+y)
 							If typ2 = sand_WATER
 								PokeByte bank,x*sizey-sizey+y,9
-							ElseIf typ2 > 1 And typ2 < 8 And typ2 <> 5
+							ElseIf typ2 > 1 And typ2 < 8 And typ2 <> sand_FIRE
 								PokeByte bank,x*sizey-sizey+y,5
 							EndIf
 						EndIf
@@ -719,7 +718,7 @@ Function UpdateSand()
 							typ2 = PeekByte(bank,x*sizey+sizey+y)
 							If typ2 = sand_WATER
 								PokeByte bank,x*sizey+sizey+y,9
-							ElseIf typ2 > 1 And typ2 < 8 And typ2 <> 5
+							ElseIf typ2 > 1 And typ2 < 8 And typ2 <> sand_FIRE
 								PokeByte bank,x*sizey+sizey+y,5
 							EndIf
 						EndIf
@@ -728,7 +727,7 @@ Function UpdateSand()
 							typ2 = PeekByte(bank,x*sizey-sizey+y-1)
 							If typ2 = sand_WATER
 								PokeByte bank,x*sizey-sizey+y-1,9
-							ElseIf typ2 > 1 And typ2 < 8 And typ2 <> 5
+							ElseIf typ2 > 1 And typ2 < 8 And typ2 <> sand_FIRE
 								PokeByte bank,x*sizey-sizey+y-1,5
 							EndIf
 						EndIf
@@ -737,7 +736,7 @@ Function UpdateSand()
 							typ2 = PeekByte(bank,off-1)
 							If typ2 = sand_WATER
 								PokeByte bank,off-1,9
-							ElseIf typ2 > 1 And typ2 < 8 And typ2 <> 5
+							ElseIf typ2 > 1 And typ2 < 8 And typ2 <> sand_FIRE
 								PokeByte bank,off-1,5
 							EndIf
 						EndIf
@@ -746,7 +745,7 @@ Function UpdateSand()
 							typ2 = PeekByte(bank,x*sizey+sizey+y-1)
 							If typ2 = sand_WATER
 								PokeByte bank,x*sizey+sizey+y-1,9
-							ElseIf typ2 > 1 And typ2 < 8 And typ2 <> 5
+							ElseIf typ2 > 1 And typ2 < 8 And typ2 <> sand_FIRE
 								PokeByte bank,x*sizey+sizey+y-1,5
 							EndIf
 						EndIf
@@ -757,56 +756,56 @@ Function UpdateSand()
 					Case 1
 						If x > 1 And y < sizey-2
 							typ2 = PeekByte(bank,x*sizey-sizey+y+1)
-							If typ2 = 9
+							If typ2 = sand_STEAM
 								PokeByte bank,x*sizey-sizey+y+1,2
 							EndIf
 						EndIf
 					Case 2
 						If y < sizey-2
 							typ2 = PeekByte(bank,off+1)
-							If typ2 = 9
+							If typ2 = sand_STEAM
 								PokeByte bank,off+1,2
 							EndIf
 						EndIf
 					Case 3
 						If x < sizex-2 And y < sizey
 							typ2 = PeekByte(bank,x*sizey+sizey+y+1)
-							If typ2 = 9
+							If typ2 = sand_STEAM
 								PokeByte bank,x*sizey+sizey+y+1,2
 							EndIf
 						EndIf
 					Case 4
 						If x > 1
 							typ2 = PeekByte(bank,x*sizey-sizey+y)
-							If typ2 = 9
+							If typ2 = sand_STEAM
 								PokeByte bank,x*sizey-sizey+y,2
 							EndIf
 						EndIf
 					Case 5
 						If x < sizex-2
 							typ2 = PeekByte(bank,x*sizey+sizey+y)
-							If typ2 = 9
+							If typ2 = sand_STEAM
 								PokeByte bank,x*sizey+sizey+y,2
 							EndIf
 						EndIf
 					Case 6
 						If x > 1 And y >1
 							typ2 = PeekByte(bank,x*sizey-sizey+y-1)
-							If typ2 = 9
+							If typ2 = sand_STEAM
 								PokeByte bank,x*sizey-sizey+y-1,2
 							EndIf
 						EndIf
 					Case 7
 						If y > 1
 							typ2 = PeekByte(bank,off-1)
-							If typ2 = 9
+							If typ2 = sand_STEAM
 								PokeByte bank,off-1,2
 							EndIf
 						EndIf
 					Case 8
 						If x < sizex-2 And y > 1
 							typ2 = PeekByte(bank,x*sizey+sizey+y-1)
-							If typ2 = 9
+							If typ2 = sand_STEAM
 								PokeByte bank,x*sizey+sizey+y-1,2
 							EndIf
 						EndIf
@@ -814,8 +813,6 @@ Function UpdateSand()
 
 				End Select
 				
-				
-				;If iterations = i 
 				If showtyp2 <> showtyp ; hell
 					Select showtyp
 					Case sand_EMPTY ; nichts
@@ -824,11 +821,11 @@ Function UpdateSand()
 						col = $ffffff
 					Case sand_WATER ; wasser
 						col = $3065ff
-					Case 3 ; stein
+					Case sand_STONE ; stein
 						col = $c8c8c8
-					Case 4 ; öl
+					Case sand_OIL ; öl
 						col = $daa953
-					Case 5 ; feuer
+					Case sand_FIRE ; feuer
 						col = $ff8800
 					Case 6 ; gras
 						col = $40ec61
@@ -836,7 +833,7 @@ Function UpdateSand()
 						col = $60c0ff
 					Case 8 ; co2 (gas)
 						col = $604030
-					Case 9 ; wasserdampf
+					Case sand_STEAM ; wasserdampf
 						col = $0030a0
 					Case sand_ACID; säure
 						col = $ff7498
@@ -845,7 +842,7 @@ Function UpdateSand()
 					Case sand_COOLER; kühler
 						col = $88ddff
 					End Select
-					If col WritePixelFast x,sizey-y,col
+					If col Then WritePixelFast x,sizey-y,col
 				ElseIf typo2 <> showtyp ; dunkel
 					Select showtyp
 					Case sand_EMPTY ; nichts
@@ -854,11 +851,11 @@ Function UpdateSand()
 						col = $bbbbbb
 					Case sand_WATER ; wasser
 						col = $0000bb
-					Case 3 ; stein
+					Case sand_STONE ; stein
 						col = $555555
-					Case 4 ; öl
+					Case sand_OIL ; öl
 						col = $774400
-					Case 5 ; feuer
+					Case sand_FIRE ; feuer
 						col = $ff8800
 					Case 6 ; gras
 						col = $009900
@@ -866,7 +863,7 @@ Function UpdateSand()
 						col = $1188aa
 					Case 8 ; co2 (gas)
 						col = $604030
-					Case 9 ; wasserdampf
+					Case sand_STEAM ; wasserdampf
 						col = $0030a0
 					Case sand_ACID; säure
 						col = $aa0000
@@ -875,7 +872,7 @@ Function UpdateSand()
 					Case sand_COOLER; kühler
 						col = $88ddff
 					End Select
-					If col WritePixelFast x,sizey-y,col
+					If col Then WritePixelFast x,sizey-y,col
 				Else
 					Select showtyp
 					Case sand_EMPTY ; nichts
@@ -884,11 +881,11 @@ Function UpdateSand()
 						col = $ccccaa
 					Case sand_WATER ; wasser
 						col = $0000ff
-					Case 3 ; stein
+					Case sand_STONE ; stein
 						col = $888888
-					Case 4 ; öl
+					Case sand_OIL ; öl
 						col = $aa9933
-					Case 5 ; feuer
+					Case sand_FIRE ; feuer
 						col = $ff8800
 					Case 6 ; gras
 						col = $00cc11
@@ -896,7 +893,7 @@ Function UpdateSand()
 						col = $40a0ff
 					Case 8 ; co2 (gas)
 						col = $604030
-					Case 9 ; wasserdampf
+					Case sand_STEAM ; wasserdampf
 						col = $0030a0
 					Case sand_ACID; säure
 						col = $ff0033
@@ -905,7 +902,7 @@ Function UpdateSand()
 					Case sand_COOLER; kühler
 						col = $88ddff
 					End Select
-					If col WritePixelFast x,sizey-y,col
+					If col Then WritePixelFast x,sizey-y,col
 				EndIf
 				typo2 = showtyp
 				typo = typ
@@ -989,11 +986,11 @@ Function Sand_SaveB()
 				col = $ccccaa
 			Case sand_WATER ; wasser
 				col = $0000ff
-			Case 3 ; stein
+			Case sand_STONE ; stein
 				col = $888888
-			Case 4 ; öl
+			Case sand_OIL ; öl
 				col = $aa9933
-			Case 5 ; feuer
+			Case sand_FIRE ; feuer
 				col = $ff8800
 			Case 6 ; gras
 				col = $00cc11
@@ -1001,7 +998,7 @@ Function Sand_SaveB()
 				col = $40a0ff
 			Case 8 ; co2 (gas)
 				col = $604030
-			Case 9 ; wasserdampf
+			Case sand_STEAM ; wasserdampf
 				col = $0030a0
 			Case sand_ACID; säure
 				col = $ff0033
@@ -1049,21 +1046,21 @@ Function Sand_LoadB(path$)
 			Case $ccccaa ; sand
 				mat = 1
 			Case $0000ff ; wasser
-				mat = 2
+				mat = sand_WATER
 			Case $888888 ; stein
-				mat = 3
+				mat = sand_STONE
 			Case $aa9933 ; öl
-				mat = 4
+				mat = sand_OIL
 			Case $ff8800 ; feuer
-				mat = 5
+				mat = sand_FIRE
 			Case $00cc11 ; gras
-				mat = 6
+				mat = sand_GRAS
 			Case $40a0ff ; wolke
-				mat = 7
+				mat = sand_SPOUT
 			Case $604030 ; co2 (gas)
-				mat = 8
+				mat = sand_CO2
 			Case $0030a0  ; wasserdampf
-				mat = 9
+				mat = sand_STEAM
 			Case $ff0033; säure
 				mat = sand_ACID
 			Case $ed8640; herd
