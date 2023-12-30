@@ -74,33 +74,32 @@ End Function
 Function Gui_Event(SenderHandle,name$)
 	Select name$
 	Case ""
-	
 	Case "Select:Delete"
-		Draw_Selected = 0
+		Draw_Selected = sand_EMPTY
 	Case "Select:Sand"
-		Draw_Selected = 1
+		Draw_Selected = sand_SAND
 	Case "Select:Stone"
-		Draw_Selected = 3
+		Draw_Selected = sand_STONE
 	Case "Select:Oil"
-		Draw_Selected = 4
+		Draw_Selected = sand_OIL
 	Case "Select:Fire"
-		Draw_Selected = 5
+		Draw_Selected = sand_FIRE
 	Case "Select:CO2"
-		Draw_Selected = 8
+		Draw_Selected = sand_CO2
 	Case "Select:Water"
-		Draw_Selected = 2
+		Draw_Selected = sand_WATER
 	Case "Select:Spout"
-		Draw_Selected = 7
+		Draw_Selected = sand_SPOUT
 	Case "Select:Steam"
-		Draw_Selected = 9
+		Draw_Selected = sand_STEAM
 	Case "Select:Acid"
-		Draw_Selected = 10
+		Draw_Selected = sand_ACID
 	Case "Select:Gras"
-		Draw_Selected = 6
+		Draw_Selected = sand_GRAS
 	Case "Select:Cooler"
-		Draw_Selected = 12
+		Draw_Selected = sand_COOLER
 	Case "Select:Heater"
-		Draw_Selected = 11
+		Draw_Selected = sand_HEATER
 		
 	Case "Set:BlackHole"
 		Draw_Set	= otBlackHole
