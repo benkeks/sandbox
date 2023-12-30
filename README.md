@@ -1,6 +1,8 @@
 Mr.Keks Sandbox
 ===============
 
+![Screenshot of Mr.Keks Sandbox toy](./screenshot.png)
+
 Hey there! I'm happy that you managed to download my game and to open the ReadMe-file! Not many people do. Whops, did I just say “my game”? Well, I usually prefer calling it *a toy*, as---well---in a game there's usually a certain task. In this toy, you can do what you want. Just play around with all the stuff.
 
 You can build your own little worlds full of falling sand, boiling water, burning oil and other stuff like this.
