@@ -59,7 +59,9 @@ Function Obj_Update()
 				PokeByte bank,(o\x+Rand(-o\size,o\size))*sizey+sizey-o\y,o\particles
 			Next
 			
-			If mx > o\x-o\size And mx < o\x+o\size And my > o\y-3 And my < o\y+3
+			If mx > o\x-o\size-1 And mx < o\x+o\size+1 And my > o\y-4 And my < o\y+4
+				Color 200,200,200
+				Rect o\x-o\size-1,o\y-4,o\size*2+2,8, False
 				If mrh Then Delete o
 			EndIf
 		Case otVentilatorR
