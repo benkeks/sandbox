@@ -4,52 +4,41 @@ Type TGadget
 	Field x,y,width,height
 	Field rx,ry
 	Field caption$
-	Field typ ; 0 = fenster, 1 = button
+	Field typ ; 0 = window, 1 = button
 	Field parent.TGadget
-	Field handl ; handle des objekts
+	Field handl ; handle of object
 End Type
 
 Type TButton
-	; erweitert TGadget
+	; extends TGadget
 	Field r,g,b
 	Field hotkey
-	Field OnClick$ ; gaaanz billiges event :)
+	Field OnClick$
 End Type
 
 Type TSlider
-	; erweitert TGadget
+	; extends TGadget
 	Field pos
 	Field changing
 	Field OnChange$
 End Type
 
 Type TFileInput
-	; erweitert TGadget
+	; extends TGadget
 	Field txt$
 	Field OnClick$
 	Field OnEscape$
 End Type
-
-Global Gui_ad$[8]
-gui_ad[0] = "Hello dear User. There are some cool things I'd like to tell you about."
-gui_ad[1] = "As you like the same kind of games as me, you might also like some other things I like..."
-gui_ad[2] = "First: Other funny stuff by me can be found on www.mrkeks.net!"
-gui_ad[3] = "This toy/game has been programmed using BlitzBaisc: www.blitzbasic.com"
-gui_ad[4] = "Great fun-punk-ska-music: www.reelbigfish.com 'She has a girlfriend now'"
-gui_ad[5] = "BlackSpotSneaker.org - kick mega corporate ass with adbuster's unionmade vegi sneakers!"
-gui_ad[6] = "Hug the World! www.FreeHugsCampaign.org"
-gui_ad[7] = "Firefox - Rediscover the web! www.mozilla.com"
-gui_ad[8] = "Last advice: Eat more cookies!!!"
-Global Gui_adpos
 
 Const gtWindow		= 0
 Const gtButton		= 1
 Const gtSlider		= 2
 Const gtFileInput 	= 3
 
-Global mh,mrh,mx,my ; maus gedrückt?
+; mouse pressed?
+Global mh,mrh,mx,my
 
-Function Gui_Init() ; GUI zusammenbasteln :)
+Function Gui_Init()
 	
 	SetFont LoadFont("arial",14,True)
 	
@@ -82,7 +71,7 @@ Function Gui_Init() ; GUI zusammenbasteln :)
 	Gui_CreateButton.TButton(520,sizey+80,100,18, "Close"	, $aa,$aa,$bb, Null ,"Close")
 End Function
 
-Function Gui_Event(SenderHandle,name$) ; meine billige event-verwaltung (=
+Function Gui_Event(SenderHandle,name$)
 	Select name$
 	Case ""
 	
@@ -261,9 +250,7 @@ Function Gui_Update()
 	Next
 	
 	Color 230,230,230
-	gui_adpos = (gui_adpos+1) Mod (4499)
-	If gui_adpos = 0 Then gui_adpos = 1
-	Text 10,GraphicsHeight()-14,gui_ad[Ceil(gui_adpos/500)]
+	Text GraphicsWidth() * .5, GraphicsHeight() - 10, "benkeks.itch.io/sandbox  |  mrkeks.net", True, True
 End Function
 
 Function Gui_NewGadget.TGadget(x,y,width,height,caption$,typ,handl,parent.TGadget)
