@@ -17,7 +17,7 @@ There are also three kinds of objects you can place:
 
 All special objects can be removed by clicking on them with right mouse button.
 
-On the right-hand side of the screen, you'll find the buttons `Save`, `Load`, `Clear all` and `Close`... Errm, and they do exactly what one would expect 'em to when you look at their names. The Save-Button won't ask you for a file name, but just save the current scene to a file with an incremented number as file name. By the way: You can also open files, by dragging 'em on `sand.exe` (=, or supplying their name via terminal as argument. For instance, the following will open a sample world:
+On the right-hand side of the screen, you'll find the buttons `Pause`, `Save`, `Load`, `Clear all` and `Close`... Errm, and they do exactly what one would expect 'em to when you look at their names. The Save-Button won't ask you for a file name, but just save the current scene to a file with an incremented number as file name. By the way: You can also open files, by dragging 'em on `sand.exe` (=, or supplying their name via terminal as argument. For instance, the following will open a sample world:
 
 ```
 sand.exe 0.sand

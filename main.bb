@@ -24,7 +24,8 @@ If Right(cmdl,1) = Chr(34) Then cmdl = Left(cmdl,Len(cmdl)-1)
 Sand_Load(cmdl)
 
 fpstimer = CreateTimer(100)
-Const showfps = False
+Const main_showfps = False
+Global main_paused = False
 
 Repeat
 	Cls
@@ -35,12 +36,16 @@ Repeat
 	
 	Draw_Update()
 	
-	If showfps Then
+	If KeyHit(57) Then; 57 = space
+		main_paused = Not main_paused
+	EndIf
+
+	If main_showfps Then
 		fps# = (fps*19+1000/(MilliSecs()-ms))/20
 		ms = MilliSecs()
 		Color 255,255,255
 		Text 500,0,fps
-	End If
+	EndIf
 	Flip 0
 	WaitTimer(fpstimer)
 Forever

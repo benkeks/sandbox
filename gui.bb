@@ -65,10 +65,11 @@ Function Gui_Init()
 	Gui_CreateSlider.TSlider(400,sizey+10,100,5, "BrushSize",  4,	Null,	"Change:BrushWidth")
 	Gui_CreateSlider.TSlider(400,sizey+30,100,5, "BrushDensity",  100,	Null,	"Change:BrushDensity")
 	
-	Gui_CreateButton.TButton(520,sizey+10,100,18, "Save"	, $aa,$aa,$bb, Null ,"Save")
-	Gui_CreateButton.TButton(520,sizey+30,100,18, "Load"	, $aa,$aa,$bb, Null ,"Load")
-	Gui_CreateButton.TButton(520,sizey+60,100,18, "Clear All"	, $aa,$aa,$bb, Null ,"Clear")
-	Gui_CreateButton.TButton(520,sizey+80,100,18, "Close"	, $aa,$aa,$bb, Null ,"Close")
+	Gui_CreateButton.TButton(520,sizey+10,100,18, "Pause"	, $aa,$aa,$bb, Null ,"Pause")
+	Gui_CreateButton.TButton(520,sizey+40,100,18, "Save"	, $aa,$aa,$bb, Null ,"Save")
+	Gui_CreateButton.TButton(520,sizey+60,100,18, "Load"	, $aa,$aa,$bb, Null ,"Load")
+	Gui_CreateButton.TButton(520,sizey+90,100,18, "Clear All"	, $aa,$aa,$bb, Null ,"Clear")
+	Gui_CreateButton.TButton(520,sizey+110,100,18, "Close"	, $aa,$aa,$bb, Null ,"Close")
 End Function
 
 Function Gui_Event(SenderHandle,name$)
@@ -117,6 +118,8 @@ Function Gui_Event(SenderHandle,name$)
 		s.TSlider = Object.TSlider(SenderHandle)
 		Draw_Density = ((101-s\pos)^1.2)
 	
+	Case "Pause"
+		main_paused = Not main_paused
 	Case "Save"
 		Sand_Save()
 	Case "Load"

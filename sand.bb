@@ -74,582 +74,570 @@ Function UpdateSand()
 				showtyp = typ
 				showtyp2 = PeekByte(bank,off+1)
 
-				Select typ
-				Case sand_EMPTY, sand_STONE
-					; do nothing
-				Case sand_SAND, sand_WATER, sand_OIL, sand_ACID
-					If typ = sand_ACID And Rand(10)=5; corrode
-						r = Rand(1,10)
-						Select r
-						Case 1
-							If x > 0 And y < sizey-1
-								typ2 = PeekByte(bank,x*sizey-sizey+y+1)
-								If typ2 = sand_WATER
-									If Rand(0,400) Then PokeByte bank,x*sizey-sizey+y+1,typ
-									PokeByte bank,off,typ2
-									typ = typ2
-								ElseIf typ2 <> sand_EMPTY And typ2 < sand_ACID And typ2 <> sand_CO2 And Rand(0,1)
-									If Rand(0,1) Then PokeByte bank,off-sizey+1,typ
-									PokeByte bank,off,sand_CO2
-									typ = sand_CO2
-								EndIf
-							EndIf
-						Case 2
-							If y < sizey-1
-								typ2 = PeekByte(bank,off+1)
-								If typ2 = sand_WATER
-									If Rand(0,400) Then PokeByte bank,off+1,typ
-									PokeByte bank,off,typ2
-									typ = typ2
-								ElseIf typ2 <> sand_EMPTY And typ2 < sand_ACID And typ2 <> sand_CO2 And Rand(0,1)
-									If Rand(0,1) Then PokeByte bank,off+1,typ
-									PokeByte bank,off,sand_CO2
-									typ = sand_CO2
-								EndIf
-							EndIf
-						Case 3
-							If x < sizex-1 And y < sizey
-								typ2 = PeekByte(bank,x*sizey+sizey+y+1)
-								If typ2 = sand_WATER
-									If Rand(0,400) Then PokeByte bank,x*sizey+sizey+y+1,typ
-									PokeByte bank,off,typ2
-									typ = typ2
-								ElseIf typ2 <> sand_EMPTY And typ2 < sand_ACID And typ2 <> sand_CO2 And Rand(0,1)
-									If Rand(0,1) Then PokeByte bank,off+sizey+1,typ
-									PokeByte bank,off,sand_CO2
-									typ = sand_CO2
-								EndIf
-							EndIf
-						Case 4
-							If x > 0
-								typ2 = PeekByte(bank,x*sizey-sizey+y)
-								If typ2 = sand_WATER
-									If Rand(0,400) Then PokeByte bank,x*sizey-sizey+y,typ
-									PokeByte bank,off,typ2
-									typ = typ2
-								ElseIf typ2 <> sand_EMPTY And typ2 < sand_ACID And typ2 <> sand_CO2 And Rand(0,1)
-									If Rand(0,1) Then PokeByte bank,off-sizey,typ
-									PokeByte bank,off,sand_CO2
-									typ = sand_CO2
-								EndIf
-							EndIf
-						Case 5
-							If x < sizex-1
-								typ2 = PeekByte(bank,x*sizey+sizey+y)
-								If typ2 = sand_WATER
-									If Rand(0,400) Then PokeByte bank,x*sizey+sizey+y,typ
-									PokeByte bank,off,typ2
-									typ = typ2
-								ElseIf typ2 <> sand_EMPTY And typ2 < sand_ACID And typ2 <> sand_CO2 And Rand(0,1)
-									If Rand(0,1) Then PokeByte bank,off+sizey,typ
-									PokeByte bank,off,sand_CO2
-									typ = sand_CO2
-								EndIf
-							EndIf
-						Case 6
-							If x > 0 And y >0
-								typ2 = PeekByte(bank,x*sizey-sizey+y-1)
-								If typ2 = sand_WATER
-									If Rand(0,400) Then PokeByte bank,x*sizey-sizey+y-1,typ
-									PokeByte bank,off,typ2
-									typ = typ2
-								ElseIf typ2 <> sand_EMPTY And typ2 < sand_ACID And typ2 <> sand_CO2 And Rand(0,1)
-									If Rand(0,1) Then PokeByte bank,off-sizey-1,typ
-									PokeByte bank,off,sand_CO2
-									typ = sand_CO2
-								EndIf
-							EndIf
-						Case 7
-							If y > 0
-								typ2 = PeekByte(bank,off-1)
-								If typ2 = sand_WATER
-									If Rand(0,400) Then PokeByte bank,off-1,typ
-									PokeByte bank,off,typ2
-									typ = typ2
-								ElseIf typ2 <> sand_EMPTY And typ2 < sand_ACID And typ2 <> sand_CO2 And Rand(0,1)
-									If Rand(0,1) Then PokeByte bank,off-1,typ
-									PokeByte bank,off,sand_CO2
-									typ = sand_CO2
-								EndIf
-							EndIf
-						Case 8
-							If x < sizex-1 And y > 0
-								typ2 = PeekByte(bank,x*sizey+sizey+y-1)
-								If typ2 = sand_WATER
-									If Rand(0,400) Then PokeByte bank,x*sizey+sizey+y-1,typ
-									PokeByte bank,off,typ2
-									typ = typ2
-								ElseIf typ2 <> sand_EMPTY And typ2 < sand_ACID And typ2 <> sand_CO2 And Rand(0,1)
-									If Rand(0,1) Then PokeByte bank,off+sizey-1,typ
-									PokeByte bank,off,sand_CO2
-									typ = sand_CO2
-								EndIf
-							EndIf
-						End Select
-					EndIf
-					If typo = sand_EMPTY Or typo = sand_CO2 Or typo = sand_STEAM Or (typ = sand_SAND And (typo = sand_WATER Or typo = sand_OIL)) Or (typ = sand_WATER And typo = sand_OIL) Then
-						If typo = sand_EMPTY Or Rand(0,1)
-							If Rand(10) > 1
-								PokeByte bank,off,typo
-								If y > 0 Then PokeByte bank,off-1,typ
-								typ = typo
-							EndIf
-						EndIf
-					ElseIf y > 0
-						If typ = sand_WATER Or typ = sand_OIL
-							If x < 1
-								typ3 = typ
-							Else
-								typ3 = PeekByte(bank,x*sizey-sizey+y)
-							EndIf
-							
-							If x > sizex-2
-								typ2 = typ
-							Else
-								typ2 = PeekByte(bank,x*sizey+sizey+y)
-							EndIf
-							
-							If typ2 = typ And (typ3 = sand_EMPTY Or (typ3 = sand_OIL And typ = sand_WATER) Or ((typ3 = sand_CO2 Or typ3 = sand_STEAM) And Rand(0,1)))
-								PokeByte bank,off,typ3
-								PokeByte bank,x*sizey-sizey+y,typ
-								typ = typ3
-							ElseIf typ3 = typ And (typ2 = sand_EMPTY Or (typ2 = sand_OIL And typ = sand_WATER) Or ((typ2 = sand_CO2 Or typ2 = sand_STEAM) And Rand(0,1)))
-								PokeByte bank,off,typ2
-								PokeByte bank,x*sizey+sizey+y,typ
-								typ = typ2
-							EndIf
-						EndIf
-						If typ = sand_WATER Or typ = sand_OIL Or typ = sand_ACID
-							If x < 1
-								typ3 = typ
-							Else
-								typ3 = PeekByte(bank,x*sizey-sizey+y)
-							EndIf
-							
-							If x > sizex-2
-								typ2 = typ
-							Else
-								typ2 = PeekByte(bank,x*sizey+sizey+y)
-							EndIf
-						
-							
-							If typ2 = typ And (typ3 = sand_EMPTY Or (typ3 = sand_OIL And typ = sand_WATER))
-								PokeByte bank,off,typ3
-								PokeByte bank,x*sizey-sizey+y,typ
-								typ = typ3
-							ElseIf typ3 = typ And (typ2 = sand_EMPTY Or (typ2 = sand_OIL And typ = sand_WATER))
-								PokeByte bank,off,typ2
-								PokeByte bank,x*sizey+sizey+y,typ
-								typ = typ2
-							EndIf
-							
-							If x < 1
-								typ3 = typ
-							Else
-								typ3 = PeekByte(bank,x*sizey-sizey+y)
-							EndIf
-							
-							If x > sizex-2
-								typ2 = typ
-							Else
-								typ2 = PeekByte(bank,x*sizey+sizey+y)
-							EndIf
-						
-							
-							If typ2 = typ And (typ3 = sand_EMPTY Or (typ3 = sand_OIL And typ = sand_WATER))
-								PokeByte bank,off,typ3
-								PokeByte bank,x*sizey-sizey+y,typ
-								typ = typ3
-							ElseIf typ3 = typ And (typ2 = sand_EMPTY Or (typ2 = sand_OIL And typ = sand_WATER))
-								PokeByte bank,off,typ2
-								PokeByte bank,x*sizey+sizey+y,typ
-								typ = typ2
-							EndIf
-						EndIf
-						
-						If Rand(1,2) = 1 And x < sizex-2
-							typ2 = PeekByte(bank,x*sizey+sizey+y-1)
-							If typ2 = sand_EMPTY Or (typ2 = sand_WATER And typ = sand_SAND And Rand(0,1)) Or ((typ2 = sand_OIL Or typ2 = sand_CO2 Or typ2 = sand_STEAM) And Rand(0,1))
-								PokeByte bank,off,typ2
-								PokeByte bank,x*sizey+sizey+y-1,typ
-								typ = typ2
-							ElseIf Rand(0,1) And x < sizex-3
-								typ2 = PeekByte(bank,x*sizey+sizey*2+y-1)
-								If typ2 = sand_EMPTY Or (typ2 = sand_WATER And typ = sand_SAND And Rand(0,1)) Or ((typ2 = sand_OIL Or typ2 = sand_CO2 Or typ2 = sand_STEAM) And Rand(0,1))
-									PokeByte bank,off,typ2
-									PokeByte bank,x*sizey+sizey*2+y-1,typ
-									typ = typ2
-								EndIf
-							EndIf
-						ElseIf x > 1
-							typ2 = PeekByte(bank,x*sizey-sizey+y-1)
-							If typ2 = sand_EMPTY Or (typ2 = sand_WATER And typ = sand_SAND And Rand(0,1)) Or ((typ2 = sand_OIL Or typ2 = sand_CO2 Or typ2 = sand_STEAM) And Rand(0,1))
-								PokeByte bank,off,typ2
-								PokeByte bank,x*sizey-sizey+y-1,typ
-								typ = typ2
-							ElseIf Rand(0,1) And x > 2
-								typ2 = PeekByte(bank,x*sizey-sizey*2+y-1)
-								If typ2 = sand_EMPTY Or (typ2 = sand_WATER And typ = sand_SAND And Rand(0,1)) Or ((typ2 = sand_OIL Or typ2 = sand_CO2 Or typ2 = sand_STEAM) And Rand(0,1))
-									PokeByte bank,off,typ2
-									PokeByte bank,x*sizey-sizey*2+y-1,typ
-									typ = typ2
-								EndIf
-							EndIf
-						EndIf
-					EndIf
-				Case sand_FIRE
-					If Rand(50)=1
-						PokeByte bank,off,8
-						If PeekByte(bank,off+1) = sand_WATER Then PokeByte bank,off,9
-						typ = sand_CO2
-					ElseIf Rand(0,1) And y < sizey-2
-						typ2 = PeekByte(bank,off+1)
-						Select typ2
-						Case sand_EMPTY
-							If Rand(2)=2
-								PokeByte bank,off,typ2
-								PokeByte bank,off+1,typ
-								typ = typ2
-							EndIf
-						Case sand_SAND,sand_STONE,sand_HEATER
-							If Rand(10)=2
-								PokeByte bank,off,0
-								typ = sand_EMPTY
-							EndIf
-						Case sand_WATER,sand_COOLER
-							PokeByte bank,off,9
-							typ = sand_STEAM
-						Case sand_OIL,sand_GRAS
-							If Rand(0,1)
-								PokeByte bank,off+1,typ
-								typ = typ
-							EndIf
-						End Select
-					ElseIf Rand(0,1) And y > 1
-						If Rand(0,1) And x < sizex-2
-							typ2 = PeekByte(bank,x*sizey+sizey+y)
-							Select typ2
-							Case sand_EMPTY
-								If Rand(20)=2
-									PokeByte bank,off,typ2
-									PokeByte bank,x*sizey+sizey+y-1,typ
-									typ = typ2
-								EndIf
-							Case sand_SAND,sand_STONE,sand_HEATER
-								If Rand(10)=2
-									PokeByte bank,off,0
-									typ = sand_EMPTY
-								EndIf
-							Case sand_WATER,sand_COOLER
-								If Rand(2)=1
-									PokeByte bank,off,0
-									typ = sand_EMPTY
-								EndIf
-							Case sand_OIL,sand_GRAS
-								If Rand(0,1)
-									PokeByte bank,x*sizey+sizey+y-1,typ
-									typ = typ
-								EndIf
-							End Select
-						ElseIf x > 1 And Rand(0,1)
-							typ2 = PeekByte(bank,x*sizey-sizey+y-1)
-							Select typ2
-							Case sand_EMPTY
-								If Rand(20=2)
-									PokeByte bank,off,typ2
-									PokeByte bank,x*sizey-sizey+y-1,typ
-									typ = typ2
-								EndIf
-							Case sand_SAND,sand_STONE,sand_HEATER
-								If Rand(10)=2
-									PokeByte bank,off,0
-									typ = sand_EMPTY
-								EndIf
-							Case sand_WATER,sand_COOLER
-								If Rand(2)=1
-									PokeByte bank,off,0
-									typ = sand_EMPTY
-								EndIf
-							Case sand_OIL,sand_GRAS
-								If Rand(0,1)
-									PokeByte bank,x*sizey-sizey+y-1,typ
-									typ = typ
-								EndIf
-							End Select
-						Else
-							typ2 = PeekByte(bank,off+1)
-							Select typ2
-							Case sand_EMPTY
-								If Rand(10)=5
-									PokeByte bank,off,typ2
-									PokeByte bank,off+1,typ
-									typ = typ2
-								EndIf
-							Case sand_SAND,sand_STONE,sand_HEATER
-								If Rand(10)=2
-									PokeByte bank,off,0
-									typ = sand_EMPTY
-								EndIf
-							Case sand_WATER,sand_COOLER
-								PokeByte bank,off,0
-								typ = sand_EMPTY
-							Case sand_OIL,sand_GRAS
-								If Rand(0,1)
-									PokeByte bank,off+1,typ
-									typ = typ
-								EndIf
-							End Select
-						EndIf
-					Else
-						If Rand(0,1) And x < sizex-2
-							typ2 = PeekByte(bank,x*sizey+sizey+y)
-							Select typ2
-							Case sand_EMPTY
-								PokeByte bank,off,typ2
-								PokeByte bank,x*sizey+sizey+y,typ
-								typ = typ2
-							Case sand_SAND,sand_STONE,sand_HEATER
-								If Rand(10)=2
-									PokeByte bank,off,0
-									typ = sand_EMPTY
-								EndIf
-							Case sand_WATER,sand_COOLER
-								If Rand(2-(typ2=sand_COOLER))=1
-									PokeByte bank,off,0
-									typ = sand_EMPTY
-								EndIf
-							Case sand_OIL,sand_GRAS
-								If Rand(0,1)
-									PokeByte bank,x*sizey+sizey+y,typ
-									typ = typ
-								EndIf
-							End Select
-						ElseIf x > 1
-							typ2 = PeekByte(bank,x*sizey-sizey+y)
-							Select typ2
-							Case sand_EMPTY
-								PokeByte bank,off,typ2
-								PokeByte bank,x*sizey-sizey+y,typ
-								typ = typ2
-							Case sand_SAND,sand_STONE,sand_HEATER
-								If Rand(10)=2
-									PokeByte bank,off,0
-									typ = sand_EMPTY
-								EndIf
-							Case sand_WATER,sand_COOLER
-								If Rand(2-(typ2=sand_COOLER))=1
-									PokeByte bank,off,0
-									typ = sand_EMPTY
-								EndIf
-							Case sand_OIL,sand_GRAS
-								If Rand(0,1)
-									PokeByte bank,x*sizey-sizey+y,typ
-									typ = typ
-								EndIf
-							End Select
-						EndIf
-					EndIf
-				Case sand_GRAS
-					r = Rand(1,80)
-					Select r
-					Case 1
-						If x > 1 And y < sizey-2
-							typ2 = PeekByte(bank,x*sizey-sizey+y+1)
-							If typ2 = sand_WATER
-								PokeByte bank,x*sizey-sizey+y+1, (1 = Rand(1)) * sand_GRAS
-							ElseIf typ2 = sand_CO2 And Rand(1)
-								PokeByte bank,x*sizey-sizey+y+1, (2 = Rand(2)) * sand_GRAS
-							EndIf
-						EndIf
-					Case 2
-						If y < sizey-2
-							typ2 = PeekByte(bank,off+1)
-							If typ2 = sand_WATER
-								PokeByte bank,off+1, (1 = Rand(1)) * sand_GRAS
-							ElseIf typ2 = sand_CO2 And Rand(1)
-								PokeByte bank,x*sizey+y-1, (2 = Rand(2)) * sand_GRAS
-							EndIf
-						EndIf
-					Case 3
-						If x < sizex-2 And y < sizey
-							typ2 = PeekByte(bank,x*sizey+sizey+y+1)
-							If typ2 = sand_WATER
-								PokeByte bank,x*sizey+sizey+y+1, (1 = Rand(1)) * sand_GRAS
-							ElseIf typ2 = sand_CO2 And Rand(1)
-								PokeByte bank,x*sizey+sizey+y+1, (2 = Rand(2)) * sand_GRAS
-							EndIf
-						EndIf
-					Case 4
-						If x > 1
-							typ2 = PeekByte(bank,x*sizey-sizey+y)
-							If typ2 = sand_WATER
-								PokeByte bank,x*sizey-sizey+y, (1 = Rand(1)) * sand_GRAS
-							ElseIf typ2 = sand_CO2 And Rand(1)
-								PokeByte bank,x*sizey-sizey+y, (2 = Rand(2)) * sand_GRAS
-							EndIf
-						EndIf
-					Case 5
-						If x < sizex-2
-							typ2 = PeekByte(bank,x*sizey+sizey+y)
-							If typ2 = sand_WATER
-								PokeByte bank,x*sizey+sizey+y, (1 = Rand(1)) * sand_GRAS
-							ElseIf typ2 = sand_CO2 And Rand(1)
-								PokeByte bank,x*sizey+sizey+y, (2 = Rand(2)) * sand_GRAS
-							EndIf
-						EndIf
-					Case 6
-						If x > 1 And y >1
-							typ2 = PeekByte(bank,x*sizey-sizey+y-1)
-							If typ2 = sand_WATER
-								PokeByte bank,x*sizey-sizey+y-1, (1 = Rand(1)) * sand_GRAS
-							ElseIf typ2 = sand_CO2 And Rand(1)
-								PokeByte bank,x*sizey-sizey+y-1, (2 = Rand(2)) * sand_GRAS
-							EndIf
-						EndIf
-					Case 7
-						If y > 1
-							typ2 = PeekByte(bank,off-1)
-							If typ2 = sand_WATER
-								PokeByte bank,off-1, (1 = Rand(1)) * sand_GRAS
-							ElseIf typ2 = sand_CO2 And Rand(1)
-								PokeByte bank,x*sizey+y-1, (2 = Rand(2)) * sand_GRAS
-							EndIf
-						EndIf
-					Case 8
-						If x < sizex-2 And y > 1
-							typ2 = PeekByte(bank,x*sizey+sizey+y-1)
-							If typ2 = sand_WATER
-								PokeByte bank,x*sizey+sizey+y-1, (1 = Rand(1)) * sand_GRAS
-							ElseIf typ2 = sand_CO2 And Rand(1)
-								PokeByte bank,x*sizey+sizey+y-1, (2 = Rand(2)) * sand_GRAS
-							EndIf
-						EndIf
-					Case 38
-						If 1 = Rand(100) Then	PokeByte bank,off, (1 = Rand(1)) * sand_OIL
-					End Select
-				Case sand_SPOUT
-					If Rand(0,30)=4 And y > 1
-						typ2 = PeekByte(bank,off-1)
-						If typ2 = sand_EMPTY
-							PokeByte bank,off-1,2
-						EndIf
-					EndIf
-				Case sand_CO2, sand_STEAM
-					typo = PeekByte(bank,off+1)
-					If Rand(300)=1 And typ = sand_STEAM Then
-						typ = sand_WATER
-						PokeByte bank,off,typ
-					Else
-						If y < sizey-1 And Rand(0,6)=2 And typo = sand_EMPTY ;<> sand_STONE And typo <> sand_GRAS And typo <> sand_SPOUT And typo <> sand_HEATER And typo<>sand_COOLER
-							PokeByte bank,off,typo
-							If y < sizey-2 Then PokeByte bank,off+1,typ
-							typ = typo
-						Else ; expand
-							r = Rand(1,9)
+				If Not main_paused Then
+					Select typ
+					Case sand_EMPTY, sand_STONE
+						; do nothing
+					Case sand_SAND, sand_WATER, sand_OIL, sand_ACID
+						If typ = sand_ACID And Rand(10)=5; corrode
+							r = Rand(1,10)
 							Select r
 							Case 1
 								If x > 0 And y < sizey-1
 									typ2 = PeekByte(bank,x*sizey-sizey+y+1)
-									If typ2 = sand_EMPTY
-										PokeByte bank,x*sizey-sizey+y+1,typ
+									If typ2 = sand_WATER
+										If Rand(0,400) Then PokeByte bank,x*sizey-sizey+y+1,typ
 										PokeByte bank,off,typ2
 										typ = typ2
+									ElseIf typ2 <> sand_EMPTY And typ2 < sand_ACID And typ2 <> sand_CO2 And Rand(0,1)
+										If Rand(0,1) Then PokeByte bank,off-sizey+1,typ
+										PokeByte bank,off,sand_CO2
+										typ = sand_CO2
 									EndIf
 								EndIf
 							Case 2
 								If y < sizey-1
 									typ2 = PeekByte(bank,off+1)
-									If typ2 = sand_EMPTY
-										PokeByte bank,off+1,typ
+									If typ2 = sand_WATER
+										If Rand(0,400) Then PokeByte bank,off+1,typ
 										PokeByte bank,off,typ2
 										typ = typ2
+									ElseIf typ2 <> sand_EMPTY And typ2 < sand_ACID And typ2 <> sand_CO2 And Rand(0,1)
+										If Rand(0,1) Then PokeByte bank,off+1,typ
+										PokeByte bank,off,sand_CO2
+										typ = sand_CO2
 									EndIf
 								EndIf
 							Case 3
-								If x < sizex-1 And y < sizey-1
+								If x < sizex-1 And y < sizey
 									typ2 = PeekByte(bank,x*sizey+sizey+y+1)
-									If typ2 = sand_EMPTY
-										PokeByte bank,x*sizey+sizey+y+1,typ
+									If typ2 = sand_WATER
+										If Rand(0,400) Then PokeByte bank,x*sizey+sizey+y+1,typ
 										PokeByte bank,off,typ2
 										typ = typ2
+									ElseIf typ2 <> sand_EMPTY And typ2 < sand_ACID And typ2 <> sand_CO2 And Rand(0,1)
+										If Rand(0,1) Then PokeByte bank,off+sizey+1,typ
+										PokeByte bank,off,sand_CO2
+										typ = sand_CO2
 									EndIf
 								EndIf
 							Case 4
 								If x > 0
 									typ2 = PeekByte(bank,x*sizey-sizey+y)
-									If typ2 = sand_EMPTY
-										PokeByte bank,x*sizey-sizey+y,typ
+									If typ2 = sand_WATER
+										If Rand(0,400) Then PokeByte bank,x*sizey-sizey+y,typ
 										PokeByte bank,off,typ2
 										typ = typ2
+									ElseIf typ2 <> sand_EMPTY And typ2 < sand_ACID And typ2 <> sand_CO2 And Rand(0,1)
+										If Rand(0,1) Then PokeByte bank,off-sizey,typ
+										PokeByte bank,off,sand_CO2
+										typ = sand_CO2
 									EndIf
 								EndIf
 							Case 5
 								If x < sizex-1
 									typ2 = PeekByte(bank,x*sizey+sizey+y)
-									If typ2 = sand_EMPTY
-										PokeByte bank,x*sizey+sizey+y,typ
+									If typ2 = sand_WATER
+										If Rand(0,400) Then PokeByte bank,x*sizey+sizey+y,typ
 										PokeByte bank,off,typ2
 										typ = typ2
+									ElseIf typ2 <> sand_EMPTY And typ2 < sand_ACID And typ2 <> sand_CO2 And Rand(0,1)
+										If Rand(0,1) Then PokeByte bank,off+sizey,typ
+										PokeByte bank,off,sand_CO2
+										typ = sand_CO2
 									EndIf
 								EndIf
 							Case 6
 								If x > 0 And y >0
 									typ2 = PeekByte(bank,x*sizey-sizey+y-1)
-									If typ2 = sand_EMPTY
-										PokeByte bank,x*sizey-sizey+y-1,typ
+									If typ2 = sand_WATER
+										If Rand(0,400) Then PokeByte bank,x*sizey-sizey+y-1,typ
 										PokeByte bank,off,typ2
 										typ = typ2
+									ElseIf typ2 <> sand_EMPTY And typ2 < sand_ACID And typ2 <> sand_CO2 And Rand(0,1)
+										If Rand(0,1) Then PokeByte bank,off-sizey-1,typ
+										PokeByte bank,off,sand_CO2
+										typ = sand_CO2
 									EndIf
 								EndIf
 							Case 7
 								If y > 0
 									typ2 = PeekByte(bank,off-1)
-									If typ2 = sand_EMPTY
-										PokeByte bank,off-1,typ
+									If typ2 = sand_WATER
+										If Rand(0,400) Then PokeByte bank,off-1,typ
 										PokeByte bank,off,typ2
 										typ = typ2
+									ElseIf typ2 <> sand_EMPTY And typ2 < sand_ACID And typ2 <> sand_CO2 And Rand(0,1)
+										If Rand(0,1) Then PokeByte bank,off-1,typ
+										PokeByte bank,off,sand_CO2
+										typ = sand_CO2
 									EndIf
 								EndIf
 							Case 8
 								If x < sizex-1 And y > 0
 									typ2 = PeekByte(bank,x*sizey+sizey+y-1)
-									If typ2 = sand_EMPTY
-										PokeByte bank,x*sizey+sizey+y-1,typ
+									If typ2 = sand_WATER
+										If Rand(0,400) Then PokeByte bank,x*sizey+sizey+y-1,typ
 										PokeByte bank,off,typ2
 										typ = typ2
+									ElseIf typ2 <> sand_EMPTY And typ2 < sand_ACID And typ2 <> sand_CO2 And Rand(0,1)
+										If Rand(0,1) Then PokeByte bank,off+sizey-1,typ
+										PokeByte bank,off,sand_CO2
+										typ = sand_CO2
 									EndIf
 								EndIf
 							End Select
+						EndIf
+						If typo = sand_EMPTY Or typo = sand_CO2 Or typo = sand_STEAM Or (typ = sand_SAND And (typo = sand_WATER Or typo = sand_OIL)) Or (typ = sand_WATER And typo = sand_OIL) Then
+							If typo = sand_EMPTY Or Rand(0,1)
+								If Rand(10) > 1
+									PokeByte bank,off,typo
+									If y > 0 Then PokeByte bank,off-1,typ
+									typ = typo
+								EndIf
+							EndIf
+						ElseIf y > 0
+							If typ = sand_WATER Or typ = sand_OIL
+								If x < 1
+									typ3 = typ
+								Else
+									typ3 = PeekByte(bank,x*sizey-sizey+y)
+								EndIf
+								
+								If x > sizex-2
+									typ2 = typ
+								Else
+									typ2 = PeekByte(bank,x*sizey+sizey+y)
+								EndIf
+								
+								If typ2 = typ And (typ3 = sand_EMPTY Or (typ3 = sand_OIL And typ = sand_WATER) Or ((typ3 = sand_CO2 Or typ3 = sand_STEAM) And Rand(0,1)))
+									PokeByte bank,off,typ3
+									PokeByte bank,x*sizey-sizey+y,typ
+									typ = typ3
+								ElseIf typ3 = typ And (typ2 = sand_EMPTY Or (typ2 = sand_OIL And typ = sand_WATER) Or ((typ2 = sand_CO2 Or typ2 = sand_STEAM) And Rand(0,1)))
+									PokeByte bank,off,typ2
+									PokeByte bank,x*sizey+sizey+y,typ
+									typ = typ2
+								EndIf
+							EndIf
+							If typ = sand_WATER Or typ = sand_OIL Or typ = sand_ACID
+								If x < 1
+									typ3 = typ
+								Else
+									typ3 = PeekByte(bank,x*sizey-sizey+y)
+								EndIf
+								
+								If x > sizex-2
+									typ2 = typ
+								Else
+									typ2 = PeekByte(bank,x*sizey+sizey+y)
+								EndIf
 							
-							If typ = showtyp
-								Select Rand(0,1)
-								Case 0
-									If x > 1 And x < sizex-2
-										typ2 = PeekByte(bank,off-sizey)
-										typ3 = PeekByte(bank,off+sizey)
-										If typ2 <> sand_EMPTY And typ3 = sand_EMPTY Then
-											PokeByte bank,off+sizey,typ
-											PokeByte bank,off,typ3
-											typ = typ3
-										ElseIf typ2 = sand_EMPTY And typ3 <> sand_EMPTY Then
-											PokeByte bank,off-sizey,typ
+								
+								If typ2 = typ And (typ3 = sand_EMPTY Or (typ3 = sand_OIL And typ = sand_WATER))
+									PokeByte bank,off,typ3
+									PokeByte bank,x*sizey-sizey+y,typ
+									typ = typ3
+								ElseIf typ3 = typ And (typ2 = sand_EMPTY Or (typ2 = sand_OIL And typ = sand_WATER))
+									PokeByte bank,off,typ2
+									PokeByte bank,x*sizey+sizey+y,typ
+									typ = typ2
+								EndIf
+								
+								If x < 1
+									typ3 = typ
+								Else
+									typ3 = PeekByte(bank,x*sizey-sizey+y)
+								EndIf
+								
+								If x > sizex-2
+									typ2 = typ
+								Else
+									typ2 = PeekByte(bank,x*sizey+sizey+y)
+								EndIf
+							
+								
+								If typ2 = typ And (typ3 = sand_EMPTY Or (typ3 = sand_OIL And typ = sand_WATER))
+									PokeByte bank,off,typ3
+									PokeByte bank,x*sizey-sizey+y,typ
+									typ = typ3
+								ElseIf typ3 = typ And (typ2 = sand_EMPTY Or (typ2 = sand_OIL And typ = sand_WATER))
+									PokeByte bank,off,typ2
+									PokeByte bank,x*sizey+sizey+y,typ
+									typ = typ2
+								EndIf
+							EndIf
+							
+							If Rand(1,2) = 1 And x < sizex-2
+								typ2 = PeekByte(bank,x*sizey+sizey+y-1)
+								If typ2 = sand_EMPTY Or (typ2 = sand_WATER And typ = sand_SAND And Rand(0,1)) Or ((typ2 = sand_OIL Or typ2 = sand_CO2 Or typ2 = sand_STEAM) And Rand(0,1))
+									PokeByte bank,off,typ2
+									PokeByte bank,x*sizey+sizey+y-1,typ
+									typ = typ2
+								ElseIf Rand(0,1) And x < sizex-3
+									typ2 = PeekByte(bank,x*sizey+sizey*2+y-1)
+									If typ2 = sand_EMPTY Or (typ2 = sand_WATER And typ = sand_SAND And Rand(0,1)) Or ((typ2 = sand_OIL Or typ2 = sand_CO2 Or typ2 = sand_STEAM) And Rand(0,1))
+										PokeByte bank,off,typ2
+										PokeByte bank,x*sizey+sizey*2+y-1,typ
+										typ = typ2
+									EndIf
+								EndIf
+							ElseIf x > 1
+								typ2 = PeekByte(bank,x*sizey-sizey+y-1)
+								If typ2 = sand_EMPTY Or (typ2 = sand_WATER And typ = sand_SAND And Rand(0,1)) Or ((typ2 = sand_OIL Or typ2 = sand_CO2 Or typ2 = sand_STEAM) And Rand(0,1))
+									PokeByte bank,off,typ2
+									PokeByte bank,x*sizey-sizey+y-1,typ
+									typ = typ2
+								ElseIf Rand(0,1) And x > 2
+									typ2 = PeekByte(bank,x*sizey-sizey*2+y-1)
+									If typ2 = sand_EMPTY Or (typ2 = sand_WATER And typ = sand_SAND And Rand(0,1)) Or ((typ2 = sand_OIL Or typ2 = sand_CO2 Or typ2 = sand_STEAM) And Rand(0,1))
+										PokeByte bank,off,typ2
+										PokeByte bank,x*sizey-sizey*2+y-1,typ
+										typ = typ2
+									EndIf
+								EndIf
+							EndIf
+						EndIf
+					Case sand_FIRE
+						If Rand(50)=1
+							PokeByte bank,off,8
+							If PeekByte(bank,off+1) = sand_WATER Then PokeByte bank,off,9
+							typ = sand_CO2
+						ElseIf Rand(0,1) And y < sizey-2
+							typ2 = PeekByte(bank,off+1)
+							Select typ2
+							Case sand_EMPTY
+								If Rand(2)=2
+									PokeByte bank,off,typ2
+									PokeByte bank,off+1,typ
+									typ = typ2
+								EndIf
+							Case sand_SAND,sand_STONE,sand_HEATER
+								If Rand(10)=2
+									PokeByte bank,off,0
+									typ = sand_EMPTY
+								EndIf
+							Case sand_WATER,sand_COOLER
+								PokeByte bank,off,9
+								typ = sand_STEAM
+							Case sand_OIL,sand_GRAS
+								If Rand(0,1)
+									PokeByte bank,off+1,typ
+									typ = typ
+								EndIf
+							End Select
+						ElseIf Rand(0,1) And y > 1
+							If Rand(0,1) And x < sizex-2
+								typ2 = PeekByte(bank,x*sizey+sizey+y)
+								Select typ2
+								Case sand_EMPTY
+									If Rand(20)=2
+										PokeByte bank,off,typ2
+										PokeByte bank,x*sizey+sizey+y-1,typ
+										typ = typ2
+									EndIf
+								Case sand_SAND,sand_STONE,sand_HEATER
+									If Rand(10)=2
+										PokeByte bank,off,0
+										typ = sand_EMPTY
+									EndIf
+								Case sand_WATER,sand_COOLER
+									If Rand(2)=1
+										PokeByte bank,off,0
+										typ = sand_EMPTY
+									EndIf
+								Case sand_OIL,sand_GRAS
+									If Rand(0,1)
+										PokeByte bank,x*sizey+sizey+y-1,typ
+										typ = typ
+									EndIf
+								End Select
+							ElseIf x > 1 And Rand(0,1)
+								typ2 = PeekByte(bank,x*sizey-sizey+y-1)
+								Select typ2
+								Case sand_EMPTY
+									If Rand(20=2)
+										PokeByte bank,off,typ2
+										PokeByte bank,x*sizey-sizey+y-1,typ
+										typ = typ2
+									EndIf
+								Case sand_SAND,sand_STONE,sand_HEATER
+									If Rand(10)=2
+										PokeByte bank,off,0
+										typ = sand_EMPTY
+									EndIf
+								Case sand_WATER,sand_COOLER
+									If Rand(2)=1
+										PokeByte bank,off,0
+										typ = sand_EMPTY
+									EndIf
+								Case sand_OIL,sand_GRAS
+									If Rand(0,1)
+										PokeByte bank,x*sizey-sizey+y-1,typ
+										typ = typ
+									EndIf
+								End Select
+							Else
+								typ2 = PeekByte(bank,off+1)
+								Select typ2
+								Case sand_EMPTY
+									If Rand(10)=5
+										PokeByte bank,off,typ2
+										PokeByte bank,off+1,typ
+										typ = typ2
+									EndIf
+								Case sand_SAND,sand_STONE,sand_HEATER
+									If Rand(10)=2
+										PokeByte bank,off,0
+										typ = sand_EMPTY
+									EndIf
+								Case sand_WATER,sand_COOLER
+									PokeByte bank,off,0
+									typ = sand_EMPTY
+								Case sand_OIL,sand_GRAS
+									If Rand(0,1)
+										PokeByte bank,off+1,typ
+										typ = typ
+									EndIf
+								End Select
+							EndIf
+						Else
+							If Rand(0,1) And x < sizex-2
+								typ2 = PeekByte(bank,x*sizey+sizey+y)
+								Select typ2
+								Case sand_EMPTY
+									PokeByte bank,off,typ2
+									PokeByte bank,x*sizey+sizey+y,typ
+									typ = typ2
+								Case sand_SAND,sand_STONE,sand_HEATER
+									If Rand(10)=2
+										PokeByte bank,off,0
+										typ = sand_EMPTY
+									EndIf
+								Case sand_WATER,sand_COOLER
+									If Rand(2-(typ2=sand_COOLER))=1
+										PokeByte bank,off,0
+										typ = sand_EMPTY
+									EndIf
+								Case sand_OIL,sand_GRAS
+									If Rand(0,1)
+										PokeByte bank,x*sizey+sizey+y,typ
+										typ = typ
+									EndIf
+								End Select
+							ElseIf x > 1
+								typ2 = PeekByte(bank,x*sizey-sizey+y)
+								Select typ2
+								Case sand_EMPTY
+									PokeByte bank,off,typ2
+									PokeByte bank,x*sizey-sizey+y,typ
+									typ = typ2
+								Case sand_SAND,sand_STONE,sand_HEATER
+									If Rand(10)=2
+										PokeByte bank,off,0
+										typ = sand_EMPTY
+									EndIf
+								Case sand_WATER,sand_COOLER
+									If Rand(2-(typ2=sand_COOLER))=1
+										PokeByte bank,off,0
+										typ = sand_EMPTY
+									EndIf
+								Case sand_OIL,sand_GRAS
+									If Rand(0,1)
+										PokeByte bank,x*sizey-sizey+y,typ
+										typ = typ
+									EndIf
+								End Select
+							EndIf
+						EndIf
+					Case sand_GRAS
+						r = Rand(1,80)
+						Select r
+						Case 1
+							If x > 1 And y < sizey-2
+								typ2 = PeekByte(bank,x*sizey-sizey+y+1)
+								If typ2 = sand_WATER
+									PokeByte bank,x*sizey-sizey+y+1, (1 = Rand(1)) * sand_GRAS
+								ElseIf typ2 = sand_CO2 And Rand(1)
+									PokeByte bank,x*sizey-sizey+y+1, (2 = Rand(2)) * sand_GRAS
+								EndIf
+							EndIf
+						Case 2
+							If y < sizey-2
+								typ2 = PeekByte(bank,off+1)
+								If typ2 = sand_WATER
+									PokeByte bank,off+1, (1 = Rand(1)) * sand_GRAS
+								ElseIf typ2 = sand_CO2 And Rand(1)
+									PokeByte bank,x*sizey+y-1, (2 = Rand(2)) * sand_GRAS
+								EndIf
+							EndIf
+						Case 3
+							If x < sizex-2 And y < sizey
+								typ2 = PeekByte(bank,x*sizey+sizey+y+1)
+								If typ2 = sand_WATER
+									PokeByte bank,x*sizey+sizey+y+1, (1 = Rand(1)) * sand_GRAS
+								ElseIf typ2 = sand_CO2 And Rand(1)
+									PokeByte bank,x*sizey+sizey+y+1, (2 = Rand(2)) * sand_GRAS
+								EndIf
+							EndIf
+						Case 4
+							If x > 1
+								typ2 = PeekByte(bank,x*sizey-sizey+y)
+								If typ2 = sand_WATER
+									PokeByte bank,x*sizey-sizey+y, (1 = Rand(1)) * sand_GRAS
+								ElseIf typ2 = sand_CO2 And Rand(1)
+									PokeByte bank,x*sizey-sizey+y, (2 = Rand(2)) * sand_GRAS
+								EndIf
+							EndIf
+						Case 5
+							If x < sizex-2
+								typ2 = PeekByte(bank,x*sizey+sizey+y)
+								If typ2 = sand_WATER
+									PokeByte bank,x*sizey+sizey+y, (1 = Rand(1)) * sand_GRAS
+								ElseIf typ2 = sand_CO2 And Rand(1)
+									PokeByte bank,x*sizey+sizey+y, (2 = Rand(2)) * sand_GRAS
+								EndIf
+							EndIf
+						Case 6
+							If x > 1 And y >1
+								typ2 = PeekByte(bank,x*sizey-sizey+y-1)
+								If typ2 = sand_WATER
+									PokeByte bank,x*sizey-sizey+y-1, (1 = Rand(1)) * sand_GRAS
+								ElseIf typ2 = sand_CO2 And Rand(1)
+									PokeByte bank,x*sizey-sizey+y-1, (2 = Rand(2)) * sand_GRAS
+								EndIf
+							EndIf
+						Case 7
+							If y > 1
+								typ2 = PeekByte(bank,off-1)
+								If typ2 = sand_WATER
+									PokeByte bank,off-1, (1 = Rand(1)) * sand_GRAS
+								ElseIf typ2 = sand_CO2 And Rand(1)
+									PokeByte bank,x*sizey+y-1, (2 = Rand(2)) * sand_GRAS
+								EndIf
+							EndIf
+						Case 8
+							If x < sizex-2 And y > 1
+								typ2 = PeekByte(bank,x*sizey+sizey+y-1)
+								If typ2 = sand_WATER
+									PokeByte bank,x*sizey+sizey+y-1, (1 = Rand(1)) * sand_GRAS
+								ElseIf typ2 = sand_CO2 And Rand(1)
+									PokeByte bank,x*sizey+sizey+y-1, (2 = Rand(2)) * sand_GRAS
+								EndIf
+							EndIf
+						Case 38
+							If 1 = Rand(100) Then	PokeByte bank,off, (1 = Rand(1)) * sand_OIL
+						End Select
+					Case sand_SPOUT
+						If Rand(0,30)=4 And y > 1
+							typ2 = PeekByte(bank,off-1)
+							If typ2 = sand_EMPTY
+								PokeByte bank,off-1,2
+							EndIf
+						EndIf
+					Case sand_CO2, sand_STEAM
+						typo = PeekByte(bank,off+1)
+						If Rand(300)=1 And typ = sand_STEAM Then
+							typ = sand_WATER
+							PokeByte bank,off,typ
+						Else
+							If y < sizey-1 And Rand(0,6)=2 And typo = sand_EMPTY ;<> sand_STONE And typo <> sand_GRAS And typo <> sand_SPOUT And typo <> sand_HEATER And typo<>sand_COOLER
+								PokeByte bank,off,typo
+								If y < sizey-2 Then PokeByte bank,off+1,typ
+								typ = typo
+							Else ; expand
+								r = Rand(1,9)
+								Select r
+								Case 1
+									If x > 0 And y < sizey-1
+										typ2 = PeekByte(bank,x*sizey-sizey+y+1)
+										If typ2 = sand_EMPTY
+											PokeByte bank,x*sizey-sizey+y+1,typ
 											PokeByte bank,off,typ2
 											typ = typ2
-										ElseIf typ2 = sand_EMPTY And typ3 = sand_EMPTY And Rand(0,1) And y < sizey-1
-											typ2 = PeekByte(bank,off+1)
-											If typ2 Then
-												Select Rand(0,1)
-												Case 0
-													PokeByte bank,off-sizey,typ
-													PokeByte bank,off,sand_EMPTY
-													typ = sand_EMPTY
-												Case 1
-													PokeByte bank,off+sizey,typ
-													PokeByte bank,off,sand_EMPTY
-													typ = sand_EMPTY
-												End Select
-											ElseIf y < sizey-2
-												typ2 = PeekByte(bank,off+2)
+										EndIf
+									EndIf
+								Case 2
+									If y < sizey-1
+										typ2 = PeekByte(bank,off+1)
+										If typ2 = sand_EMPTY
+											PokeByte bank,off+1,typ
+											PokeByte bank,off,typ2
+											typ = typ2
+										EndIf
+									EndIf
+								Case 3
+									If x < sizex-1 And y < sizey-1
+										typ2 = PeekByte(bank,x*sizey+sizey+y+1)
+										If typ2 = sand_EMPTY
+											PokeByte bank,x*sizey+sizey+y+1,typ
+											PokeByte bank,off,typ2
+											typ = typ2
+										EndIf
+									EndIf
+								Case 4
+									If x > 0
+										typ2 = PeekByte(bank,x*sizey-sizey+y)
+										If typ2 = sand_EMPTY
+											PokeByte bank,x*sizey-sizey+y,typ
+											PokeByte bank,off,typ2
+											typ = typ2
+										EndIf
+									EndIf
+								Case 5
+									If x < sizex-1
+										typ2 = PeekByte(bank,x*sizey+sizey+y)
+										If typ2 = sand_EMPTY
+											PokeByte bank,x*sizey+sizey+y,typ
+											PokeByte bank,off,typ2
+											typ = typ2
+										EndIf
+									EndIf
+								Case 6
+									If x > 0 And y >0
+										typ2 = PeekByte(bank,x*sizey-sizey+y-1)
+										If typ2 = sand_EMPTY
+											PokeByte bank,x*sizey-sizey+y-1,typ
+											PokeByte bank,off,typ2
+											typ = typ2
+										EndIf
+									EndIf
+								Case 7
+									If y > 0
+										typ2 = PeekByte(bank,off-1)
+										If typ2 = sand_EMPTY
+											PokeByte bank,off-1,typ
+											PokeByte bank,off,typ2
+											typ = typ2
+										EndIf
+									EndIf
+								Case 8
+									If x < sizex-1 And y > 0
+										typ2 = PeekByte(bank,x*sizey+sizey+y-1)
+										If typ2 = sand_EMPTY
+											PokeByte bank,x*sizey+sizey+y-1,typ
+											PokeByte bank,off,typ2
+											typ = typ2
+										EndIf
+									EndIf
+								End Select
+								
+								If typ = showtyp
+									Select Rand(0,1)
+									Case 0
+										If x > 1 And x < sizex-2
+											typ2 = PeekByte(bank,off-sizey)
+											typ3 = PeekByte(bank,off+sizey)
+											If typ2 <> sand_EMPTY And typ3 = sand_EMPTY Then
+												PokeByte bank,off+sizey,typ
+												PokeByte bank,off,typ3
+												typ = typ3
+											ElseIf typ2 = sand_EMPTY And typ3 <> sand_EMPTY Then
+												PokeByte bank,off-sizey,typ
+												PokeByte bank,off,typ2
+												typ = typ2
+											ElseIf typ2 = sand_EMPTY And typ3 = sand_EMPTY And Rand(0,1) And y < sizey-1
+												typ2 = PeekByte(bank,off+1)
 												If typ2 Then
 													Select Rand(0,1)
 													Case 0
@@ -661,189 +649,203 @@ Function UpdateSand()
 														PokeByte bank,off,sand_EMPTY
 														typ = sand_EMPTY
 													End Select
+												ElseIf y < sizey-2
+													typ2 = PeekByte(bank,off+2)
+													If typ2 Then
+														Select Rand(0,1)
+														Case 0
+															PokeByte bank,off-sizey,typ
+															PokeByte bank,off,sand_EMPTY
+															typ = sand_EMPTY
+														Case 1
+															PokeByte bank,off+sizey,typ
+															PokeByte bank,off,sand_EMPTY
+															typ = sand_EMPTY
+														End Select
+													EndIf
+												EndIf
+											ElseIf typ2 <> sand_EMPTY And typ3 <> sand_EMPTY And x > 2 And x < sizex-3 And False
+												typ2 = PeekByte(bank,off-sizey*2)
+												typ3 = PeekByte(bank,off+sizey*2)
+												If typ2 <> sand_EMPTY And typ3 = sand_EMPTY Then
+													PokeByte bank,off+sizey*2,typ
+													PokeByte bank,off,typ3
+													typ = typ3
+												ElseIf typ2 = sand_EMPTY And typ3 <> sand_EMPTY Then
+													PokeByte bank,off-sizey*2,typ
+													PokeByte bank,off,typ2
+													typ = typ2
 												EndIf
 											EndIf
-										ElseIf typ2 <> sand_EMPTY And typ3 <> sand_EMPTY And x > 2 And x < sizex-3 And False
-											typ2 = PeekByte(bank,off-sizey*2)
-											typ3 = PeekByte(bank,off+sizey*2)
+										EndIf
+									Case 1
+										If y > 1 And y < sizey-2
+											typ2 = PeekByte(bank,off-1)
+											typ3 = PeekByte(bank,off+1)
 											If typ2 <> sand_EMPTY And typ3 = sand_EMPTY Then
-												PokeByte bank,off+sizey*2,typ
+												PokeByte bank,off+1,typ
 												PokeByte bank,off,typ3
 												typ = typ3
 											ElseIf typ2 = sand_EMPTY And typ3 <> sand_EMPTY Then
-												PokeByte bank,off-sizey*2,typ
+												PokeByte bank,off-1,typ
 												PokeByte bank,off,typ2
 												typ = typ2
+											ElseIf typ2 <> sand_EMPTY And typ3 <> sand_EMPTY And Rand(1) And y > 2 And y < sizey-3 And False
+												typ2 = PeekByte(bank,off-2)
+												typ3 = PeekByte(bank,off+2)
+												If typ2 <> sand_EMPTY And typ3 = sand_EMPTY Then
+													PokeByte bank,off+2,typ
+													PokeByte bank,off,typ3
+													typ = typ3
+												ElseIf typ2 = sand_EMPTY And typ3 <> sand_EMPTY Then
+													PokeByte bank,off-2,typ
+													PokeByte bank,off,typ2
+													typ = typ2
+												EndIf
 											EndIf
 										EndIf
-									EndIf
-								Case 1
-									If y > 1 And y < sizey-2
-										typ2 = PeekByte(bank,off-1)
-										typ3 = PeekByte(bank,off+1)
-										If typ2 <> sand_EMPTY And typ3 = sand_EMPTY Then
-											PokeByte bank,off+1,typ
-											PokeByte bank,off,typ3
-											typ = typ3
-										ElseIf typ2 = sand_EMPTY And typ3 <> sand_EMPTY Then
-											PokeByte bank,off-1,typ
-											PokeByte bank,off,typ2
-											typ = typ2
-										ElseIf typ2 <> sand_EMPTY And typ3 <> sand_EMPTY And Rand(1) And y > 2 And y < sizey-3 And False
-											typ2 = PeekByte(bank,off-2)
-											typ3 = PeekByte(bank,off+2)
-											If typ2 <> sand_EMPTY And typ3 = sand_EMPTY Then
-												PokeByte bank,off+2,typ
-												PokeByte bank,off,typ3
-												typ = typ3
-											ElseIf typ2 = sand_EMPTY And typ3 <> sand_EMPTY Then
-												PokeByte bank,off-2,typ
-												PokeByte bank,off,typ2
-												typ = typ2
-											EndIf
-										EndIf
-									EndIf
-								End Select
+									End Select
+								EndIf
 							EndIf
 						EndIf
-					EndIf
-				Case sand_HEATER
-					r = Rand(1,10)
-					Select r
-					Case 1
-						If x > 1 And y < sizey-2
-							typ2 = PeekByte(bank,x*sizey-sizey+y+1)
-							If typ2 = sand_WATER
-								PokeByte bank,x*sizey-sizey+y+1,sand_STEAM
-							ElseIf typ2 > 1 And typ2 < 8 And typ2 <> sand_FIRE
-								PokeByte bank,x*sizey-sizey+y+1,sand_FIRE
+					Case sand_HEATER
+						r = Rand(1,10)
+						Select r
+						Case 1
+							If x > 1 And y < sizey-2
+								typ2 = PeekByte(bank,x*sizey-sizey+y+1)
+								If typ2 = sand_WATER
+									PokeByte bank,x*sizey-sizey+y+1,sand_STEAM
+								ElseIf typ2 > 1 And typ2 < 8 And typ2 <> sand_FIRE
+									PokeByte bank,x*sizey-sizey+y+1,sand_FIRE
+								EndIf
 							EndIf
-						EndIf
-					Case 2
-						If y < sizey-2
-							typ2 = PeekByte(bank,off+1)
-							If typ2 = sand_WATER
-								PokeByte bank,off+1,sand_STEAM
-							ElseIf typ2 > 1 And typ2 < 8 And typ2 <> sand_FIRE
-								PokeByte bank,off+1,sand_FIRE
+						Case 2
+							If y < sizey-2
+								typ2 = PeekByte(bank,off+1)
+								If typ2 = sand_WATER
+									PokeByte bank,off+1,sand_STEAM
+								ElseIf typ2 > 1 And typ2 < 8 And typ2 <> sand_FIRE
+									PokeByte bank,off+1,sand_FIRE
+								EndIf
 							EndIf
-						EndIf
-					Case 3
-						If x < sizex-2 And y < sizey
-							typ2 = PeekByte(bank,x*sizey+sizey+y+1)
-							If typ2 = sand_WATER
-								PokeByte bank,x*sizey+sizey+y+1,sand_STEAM
-							ElseIf typ2 > 1 And typ2 < 8 And typ2 <> sand_FIRE
-								PokeByte bank,x*sizey+sizey+y+1,sand_FIRE
+						Case 3
+							If x < sizex-2 And y < sizey
+								typ2 = PeekByte(bank,x*sizey+sizey+y+1)
+								If typ2 = sand_WATER
+									PokeByte bank,x*sizey+sizey+y+1,sand_STEAM
+								ElseIf typ2 > 1 And typ2 < 8 And typ2 <> sand_FIRE
+									PokeByte bank,x*sizey+sizey+y+1,sand_FIRE
+								EndIf
 							EndIf
-						EndIf
-					Case 4
-						If x > 1
-							typ2 = PeekByte(bank,x*sizey-sizey+y)
-							If typ2 = sand_WATER
-								PokeByte bank,x*sizey-sizey+y,sand_STEAM
-							ElseIf typ2 > 1 And typ2 < 8 And typ2 <> sand_FIRE
-								PokeByte bank,x*sizey-sizey+y,sand_FIRE
+						Case 4
+							If x > 1
+								typ2 = PeekByte(bank,x*sizey-sizey+y)
+								If typ2 = sand_WATER
+									PokeByte bank,x*sizey-sizey+y,sand_STEAM
+								ElseIf typ2 > 1 And typ2 < 8 And typ2 <> sand_FIRE
+									PokeByte bank,x*sizey-sizey+y,sand_FIRE
+								EndIf
 							EndIf
-						EndIf
-					Case 5
-						If x < sizex-2
-							typ2 = PeekByte(bank,x*sizey+sizey+y)
-							If typ2 = sand_WATER
-								PokeByte bank,x*sizey+sizey+y,sand_STEAM
-							ElseIf typ2 > 1 And typ2 < 8 And typ2 <> sand_FIRE
-								PokeByte bank,x*sizey+sizey+y,sand_FIRE
+						Case 5
+							If x < sizex-2
+								typ2 = PeekByte(bank,x*sizey+sizey+y)
+								If typ2 = sand_WATER
+									PokeByte bank,x*sizey+sizey+y,sand_STEAM
+								ElseIf typ2 > 1 And typ2 < 8 And typ2 <> sand_FIRE
+									PokeByte bank,x*sizey+sizey+y,sand_FIRE
+								EndIf
 							EndIf
-						EndIf
-					Case 6
-						If x > 1 And y >1
-							typ2 = PeekByte(bank,x*sizey-sizey+y-1)
-							If typ2 = sand_WATER
-								PokeByte bank,x*sizey-sizey+y-1,sand_STEAM
-							ElseIf typ2 > 1 And typ2 < 8 And typ2 <> sand_FIRE
-								PokeByte bank,x*sizey-sizey+y-1,sand_FIRE
+						Case 6
+							If x > 1 And y >1
+								typ2 = PeekByte(bank,x*sizey-sizey+y-1)
+								If typ2 = sand_WATER
+									PokeByte bank,x*sizey-sizey+y-1,sand_STEAM
+								ElseIf typ2 > 1 And typ2 < 8 And typ2 <> sand_FIRE
+									PokeByte bank,x*sizey-sizey+y-1,sand_FIRE
+								EndIf
 							EndIf
-						EndIf
-					Case 7
-						If y > 1
-							typ2 = PeekByte(bank,off-1)
-							If typ2 = sand_WATER
-								PokeByte bank,off-1,sand_STEAM
-							ElseIf typ2 > 1 And typ2 < 8 And typ2 <> sand_FIRE
-								PokeByte bank,off-1,sand_FIRE
+						Case 7
+							If y > 1
+								typ2 = PeekByte(bank,off-1)
+								If typ2 = sand_WATER
+									PokeByte bank,off-1,sand_STEAM
+								ElseIf typ2 > 1 And typ2 < 8 And typ2 <> sand_FIRE
+									PokeByte bank,off-1,sand_FIRE
+								EndIf
 							EndIf
-						EndIf
-					Case 8
-						If x < sizex-2 And y > 1
-							typ2 = PeekByte(bank,x*sizey+sizey+y-1)
-							If typ2 = sand_WATER
-								PokeByte bank,x*sizey+sizey+y-1,sand_STEAM
-							ElseIf typ2 > 1 And typ2 < 8 And typ2 <> sand_FIRE
-								PokeByte bank,x*sizey+sizey+y-1,sand_FIRE
+						Case 8
+							If x < sizex-2 And y > 1
+								typ2 = PeekByte(bank,x*sizey+sizey+y-1)
+								If typ2 = sand_WATER
+									PokeByte bank,x*sizey+sizey+y-1,sand_STEAM
+								ElseIf typ2 > 1 And typ2 < 8 And typ2 <> sand_FIRE
+									PokeByte bank,x*sizey+sizey+y-1,sand_FIRE
+								EndIf
 							EndIf
-						EndIf
+						End Select
+					Case sand_COOLER
+						r = Rand(1,10)
+						Select r
+						Case 1
+							If x > 1 And y < sizey-2
+								typ2 = PeekByte(bank,x*sizey-sizey+y+1)
+								If typ2 = sand_STEAM
+									PokeByte bank,x*sizey-sizey+y+1,sand_WATER
+								EndIf
+							EndIf
+						Case 2
+							If y < sizey-2
+								typ2 = PeekByte(bank,off+1)
+								If typ2 = sand_STEAM
+									PokeByte bank,off+1,sand_WATER
+								EndIf
+							EndIf
+						Case 3
+							If x < sizex-2 And y < sizey
+								typ2 = PeekByte(bank,x*sizey+sizey+y+1)
+								If typ2 = sand_STEAM
+									PokeByte bank,x*sizey+sizey+y+1,sand_WATER
+								EndIf
+							EndIf
+						Case 4
+							If x > 1
+								typ2 = PeekByte(bank,x*sizey-sizey+y)
+								If typ2 = sand_STEAM
+									PokeByte bank,x*sizey-sizey+y,sand_WATER
+								EndIf
+							EndIf
+						Case 5
+							If x < sizex-2
+								typ2 = PeekByte(bank,x*sizey+sizey+y)
+								If typ2 = sand_STEAM
+									PokeByte bank,x*sizey+sizey+y,sand_WATER
+								EndIf
+							EndIf
+						Case 6
+							If x > 1 And y >1
+								typ2 = PeekByte(bank,x*sizey-sizey+y-1)
+								If typ2 = sand_STEAM
+									PokeByte bank,x*sizey-sizey+y-1,sand_WATER
+								EndIf
+							EndIf
+						Case 7
+							If y > 1
+								typ2 = PeekByte(bank,off-1)
+								If typ2 = sand_STEAM
+									PokeByte bank,off-1,sand_WATER
+								EndIf
+							EndIf
+						Case 8
+							If x < sizex-2 And y > 1
+								typ2 = PeekByte(bank,x*sizey+sizey+y-1)
+								If typ2 = sand_STEAM
+									PokeByte bank,x*sizey+sizey+y-1,sand_WATER
+								EndIf
+							EndIf
+						End Select
 					End Select
-				Case sand_COOLER
-					r = Rand(1,10)
-					Select r
-					Case 1
-						If x > 1 And y < sizey-2
-							typ2 = PeekByte(bank,x*sizey-sizey+y+1)
-							If typ2 = sand_STEAM
-								PokeByte bank,x*sizey-sizey+y+1,sand_WATER
-							EndIf
-						EndIf
-					Case 2
-						If y < sizey-2
-							typ2 = PeekByte(bank,off+1)
-							If typ2 = sand_STEAM
-								PokeByte bank,off+1,sand_WATER
-							EndIf
-						EndIf
-					Case 3
-						If x < sizex-2 And y < sizey
-							typ2 = PeekByte(bank,x*sizey+sizey+y+1)
-							If typ2 = sand_STEAM
-								PokeByte bank,x*sizey+sizey+y+1,sand_WATER
-							EndIf
-						EndIf
-					Case 4
-						If x > 1
-							typ2 = PeekByte(bank,x*sizey-sizey+y)
-							If typ2 = sand_STEAM
-								PokeByte bank,x*sizey-sizey+y,sand_WATER
-							EndIf
-						EndIf
-					Case 5
-						If x < sizex-2
-							typ2 = PeekByte(bank,x*sizey+sizey+y)
-							If typ2 = sand_STEAM
-								PokeByte bank,x*sizey+sizey+y,sand_WATER
-							EndIf
-						EndIf
-					Case 6
-						If x > 1 And y >1
-							typ2 = PeekByte(bank,x*sizey-sizey+y-1)
-							If typ2 = sand_STEAM
-								PokeByte bank,x*sizey-sizey+y-1,sand_WATER
-							EndIf
-						EndIf
-					Case 7
-						If y > 1
-							typ2 = PeekByte(bank,off-1)
-							If typ2 = sand_STEAM
-								PokeByte bank,off-1,sand_WATER
-							EndIf
-						EndIf
-					Case 8
-						If x < sizex-2 And y > 1
-							typ2 = PeekByte(bank,x*sizey+sizey+y-1)
-							If typ2 = sand_STEAM
-								PokeByte bank,x*sizey+sizey+y-1,sand_WATER
-							EndIf
-						EndIf
-					End Select
-				End Select
+				EndIf
 
 				If showtyp <> sand_EMPTY Then
 					If showtyp2 <> showtyp Then
