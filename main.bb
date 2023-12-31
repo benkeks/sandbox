@@ -31,14 +31,13 @@ Repeat
 	Cls
 	UpdateSand()
 	Obj_Update()
-	
-	Gui_Update()
-	
-	Draw_Update()
-	
+
 	If KeyHit(57) Then; 57 = space
 		main_paused = Not main_paused
 	EndIf
+	
+	Gui_Update()
+	Draw_Update()
 
 	If main_showfps Then
 		fps# = (fps*19+1000/(MilliSecs()-ms))/20

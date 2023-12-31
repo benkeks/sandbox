@@ -234,16 +234,19 @@ Function Gui_Update()
 				Wend
 				Text g\rx+15,g\ry+34,txt
 				
+				main_paused = True; pause everything while dialogue is open
 				Select key
 				Case 0
 				Case 13; enter
 					Gui_Event(Handle(f),f\OnClick)
 					Delete f
+					main_paused = False
 				Case 8 ; backspace
 					If Len(f\txt)>0 Then f\txt = Left(f\txt,Len(f\txt)-1)
-				Case 27; escaepe 
+				Case 27; escaepe
 					Gui_Event(Handle(f),f\OnEscape)
 					Delete f
+					main_paused = False
 				Default
 					f\txt = f\txt + Chr(key)
 				End Select
