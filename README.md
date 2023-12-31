@@ -1,7 +1,7 @@
 Mr.Keks Sandbox
 ===============
 
-![Screenshot of Mr.Keks Sandbox toy](./screenshot.png)
+[![Screenshot of Mr.Keks Sandbox toy](./screenshot.png)](https://benkeks.itch.io/sandbox)
 
 Hey there! I'm happy that you managed to download my game and to open the ReadMe-file! Not many people do. Whops, did I just say “my game”? Well, I usually prefer calling it *a toy*, as---well---in a game there's usually a certain task. In this toy, you can do what you want. Just play around with all the stuff.
 
@@ -25,6 +25,7 @@ sand.exe 0.sand
 
 Well, I hope you enjoy my game. If you do, why don't you drop me a line?
 
+- https://benkeks.itch.io/sandbox
 - https://mrkeks.net
 - ben@mrkeks.net
 
@@ -47,6 +48,8 @@ To build the game from source, you'll need [Blitz3d](https://github.com/blitz-re
 ```
 blitzcc -o sand.exe main.bb
 ```
+
+The most recent version of the source can be obtained from https://github.com/benkeks/sandbox.
 
 For technical reasons, this repository contains a copy of `fmod.dll` that would otherwise be supplied by the Blitz3d installation.
 

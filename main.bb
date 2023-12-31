@@ -1,4 +1,4 @@
-AppTitle "Mr.Keks Acid Sand Oil Water Box"
+AppTitle "Mr.Keks Sandbox"
 
 Graphics 640,480,16,2
 SetBuffer BackBuffer()
