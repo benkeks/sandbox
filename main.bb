@@ -1,3 +1,4 @@
+Dialect "secure"
 AppTitle "Mr.Keks Sandbox"
 
 Graphics 640,480,16,2
@@ -11,7 +12,7 @@ Include "objects.bb"
 Const sizex = 639
 Const sizey = 300
 
-Global ri
+Global ms
 
 Global bank = CreateBank(sizex*sizey+1)
 

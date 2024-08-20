@@ -1,4 +1,4 @@
-
+Dialect "secure"
 
 Type TGadget
 	Field x,y,width,height

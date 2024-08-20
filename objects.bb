@@ -1,3 +1,4 @@
+Dialect "secure"
 
 Type TObject
 	Field typ

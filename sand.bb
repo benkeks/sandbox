@@ -1,3 +1,5 @@
+Dialect "secure"
+
 Const sand_EMPTY	= 0
 Const sand_SAND		= 1
 Const sand_WATER	= 2
@@ -11,6 +13,8 @@ Const sand_STEAM	= 9
 Const sand_ACID		= 10
 Const sand_HEATER	= 11
 Const sand_COOLER	= 12
+
+Global ri
 
 Global sand_color[32]
 Global sand_color_light[32]
@@ -65,6 +69,7 @@ Function UpdateSand()
 		ri = 1-ri
 		x = (sizex-1)*(ri=1)
 		Ende = (sizex-1)*(ri=0)
+		typo2 = 0
 		While (x < ende And ri = 0) Or (x > ende And ri = 1)
 			If ri = 1 Then x = x - 1 Else x = x + 1
 			typo = sand_EMPTY

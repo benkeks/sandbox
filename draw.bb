@@ -1,3 +1,5 @@
+Dialect "secure"
+
 Global Draw_lastx, Draw_lasty
 
 Global Draw_BrushSize	= 5

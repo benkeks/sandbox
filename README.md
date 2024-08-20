@@ -43,7 +43,7 @@ the original author of this software!)
 
 -----
 
-To build the game from source, you'll need [Blitz3d](https://github.com/blitz-research/blitz3d). The following command will compile the game:
+To build the game from source, you'll need [Blitz3d](https://github.com/blitz-research/blitz3d_soloud) V1.117. The following command will compile the game:
 
 ```
 blitzcc -o sand.exe main.bb

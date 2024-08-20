@@ -4,7 +4,7 @@ MAINFILE = main.bb
 EXENAME  = sand.exe
 FMODDLL  = fmod.dll
 RELEASENAME = sandbox
-RELEASEVERSION  = 0.2.1
+RELEASEVERSION  = 0.2.2
 RELEASEDIR = release/$(RELEASENAME)
 
 run: $(MAINFILE)
